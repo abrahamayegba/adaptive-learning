@@ -65,12 +65,12 @@ export default function ProfilePage() {
       </div>
 
 
-      <div className="rounded-xl border border-border bg-card p-6 space-y-6">
-        <div className="flex items-start gap-5">
+      <div className="rounded-xl border border-border bg-card p-4 space-y-6 sm:p-6">
+        <div className="flex flex-wrap items-start gap-4 sm:flex-nowrap sm:gap-5">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary text-2xl font-bold">
             {user.avatar}
           </div>
-          <div className="flex-1 space-y-3">
+          <div className="min-w-0 flex-1 space-y-3">
             {editing ? (
               <div className="space-y-3">
                 <div className="space-y-1">
@@ -109,7 +109,7 @@ export default function ProfilePage() {
                   <h2 className="text-xl font-bold text-foreground">{user.name}</h2>
                   <Badge className={cn("text-xs border capitalize", roleColour)}>{user.role}</Badge>
                 </div>
-                <p className="text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
+                <p className="break-words text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
                   <Mail className="h-3.5 w-3.5" />
                   {user.email}
                 </p>
@@ -124,7 +124,7 @@ export default function ProfilePage() {
             )}
           </div>
           {!editing && (
-            <Button onClick={() => setEditing(true)} variant="outline" size="sm" className="gap-2 shrink-0">
+            <Button onClick={() => setEditing(true)} variant="outline" size="sm" className="gap-2 shrink-0 sm:ml-auto">
               <Edit3 className="h-3.5 w-3.5" />
               Edit
             </Button>

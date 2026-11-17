@@ -63,8 +63,8 @@ export default function AnalyticsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-foreground">Analytics & Reporting</h1>
           <p className="text-muted-foreground mt-1">Platform-wide learning insights and performance metrics.</p>
         </div>
@@ -86,13 +86,13 @@ export default function AnalyticsPage() {
         />
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 min-w-0 space-y-8">
 
-          <section className="rounded-xl border border-border bg-card p-6 space-y-4">
+          <section className="w-full min-w-0 overflow-hidden rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-primary" />
-              <h2 className="font-semibold">Enrollment vs Completion by Course</h2>
+              <BarChart3 className="h-5 w-5 shrink-0 text-primary" />
+              <h2 className="min-w-0 font-semibold">Enrollment vs Completion by Course</h2>
             </div>
             {courseBarData.length > 0 ? (
               <ChartContainer
@@ -100,7 +100,7 @@ export default function AnalyticsPage() {
                   enrolled: { label: "Enrolled", color: "var(--primary)" },
                   completed: { label: "Completed", color: "var(--accent)" },
                 }}
-                className="h-52"
+                className="h-52 w-full min-w-0"
               >
                 <BarChart data={courseBarData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -122,8 +122,8 @@ export default function AnalyticsPage() {
               <TrendingUp className="h-5 w-5 text-primary" />
               <h2 className="font-semibold">Course Performance</h2>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="w-full min-w-0 max-w-full overflow-x-auto">
+              <table className="min-w-[560px] text-sm">
                 <thead>
                   <tr className="border-b border-border text-left">
                     <th className="pb-3 text-muted-foreground font-medium text-xs">Course</th>
@@ -220,9 +220,9 @@ export default function AnalyticsPage() {
         </div>
 
 
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
 
-          <div className="rounded-xl border border-border bg-card p-5 space-y-4">
+          <div className="min-w-0 rounded-xl border border-border bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-primary" />
               <h3 className="font-semibold text-sm">Overall Completion Rate</h3>
@@ -250,15 +250,16 @@ export default function AnalyticsPage() {
           </div>
 
 
-          <div className="rounded-xl border border-border bg-card p-5 space-y-4">
+          <div className="w-full min-w-0 overflow-hidden rounded-xl border border-border bg-card p-5 space-y-4">
             <h3 className="font-semibold text-sm">Courses by Level</h3>
             <ChartContainer
               config={{
+                "300 Level": { label: "300 Level", color: CHART_COLOURS[0] },
                 Beginner: { label: "Beginner", color: CHART_COLOURS[0] },
                 Intermediate: { label: "Intermediate", color: CHART_COLOURS[1] },
                 Advanced: { label: "Advanced", color: CHART_COLOURS[2] },
               }}
-              className="h-36"
+              className="h-36 w-full min-w-0"
             >
               <PieChart>
                 <Pie data={pieData} cx="50%" cy="50%" outerRadius={55} dataKey="value" paddingAngle={3}>

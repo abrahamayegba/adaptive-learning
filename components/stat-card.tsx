@@ -13,19 +13,19 @@ export function StatCard({ label, value, icon, trend, className, accent }: StatC
   return (
     <div
       className={cn(
-        "rounded-xl border border-border bg-card p-5 flex items-start gap-4 shadow-sm",
+        "rounded-xl border border-border bg-card p-4 flex items-start gap-3 shadow-sm sm:p-5 sm:gap-4 max-[360px]:flex-col max-[360px]:gap-2 max-[360px]:p-3",
         accent && "bg-primary border-primary",
         className
       )}
     >
       <div className={cn(
-        "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
+        "flex size-9 shrink-0 items-center justify-center rounded-lg sm:size-10 max-[360px]:size-8",
         accent ? "bg-primary-foreground/10 text-primary-foreground" : "bg-primary/10 text-primary"
       )}>
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className={cn("text-sm font-medium", accent ? "text-primary-foreground/80" : "text-muted-foreground")}>
+        <p className={cn("text-xs font-medium sm:text-sm", accent ? "text-primary-foreground/80" : "text-muted-foreground")}>
           {label}
         </p>
         <p className={cn("text-2xl font-bold leading-tight mt-0.5", accent ? "text-primary-foreground" : "text-foreground")}>

@@ -144,6 +144,8 @@ export function TopNav({ user, currentPath = "" }: TopNavProps) {
               variant="ghost"
               size="icon"
               className="md:hidden text-sidebar-foreground hover:bg-sidebar-accent"
+              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileOpen}
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

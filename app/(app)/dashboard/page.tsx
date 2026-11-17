@@ -104,7 +104,7 @@ export default function DashboardPage() {
           </div>
         )}
         {user.role !== "student" && (
-          <Button asChild variant="outline" className="border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent shrink-0">
+          <Button asChild variant="outline" className="border-sidebar-border bg-sidebar-accent text-sidebar-foreground hover:bg-sidebar-accent/80 shrink-0">
             <Link href={user.role === "admin" ? "/admin" : "/analytics"}>
               View Dashboard
             </Link>
@@ -139,15 +139,15 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-2 min-w-0 space-y-8">
 
           {recommendations.length > 0 && (
             <section>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <div className="flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
+                  <Zap className="h-5 w-5 shrink-0 text-primary" />
                   <h2 className="text-lg font-semibold">Adaptive Recommendations</h2>
                 </div>
                 <Badge variant="outline" className="text-xs">Personalised for you</Badge>
