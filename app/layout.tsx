@@ -17,7 +17,6 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'LevelUp – 300-Level Adaptive Learning Portal',
   description: 'An adaptive learning management portal for 300-level Computer Science and Information Technology courses, built as a demo academic project.',
-  generator: 'v0.app',
   keywords: ['300 level', 'adaptive learning', 'Computer Science', 'Information Technology', 'course portal'],
 }
 
