@@ -71,7 +71,7 @@ export default function StudentsPage() {
         <p className="text-muted-foreground mt-1">Monitor learner progress and engagement across all courses.</p>
       </div>
 
-      {/* Filters */}
+
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -96,7 +96,7 @@ export default function StudentsPage() {
         </Select>
       </div>
 
-      {/* Summary */}
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
           { label: "Total Students", value: students.length, icon: <Users className="h-4 w-4" /> },
@@ -121,7 +121,7 @@ export default function StudentsPage() {
         ))}
       </div>
 
-      {/* Student cards */}
+
       <div className="grid gap-4">
         {filtered.map((student) => {
           const enrolledCourseDetails = DEMO_COURSES.filter((c) =>
@@ -130,21 +130,22 @@ export default function StudentsPage() {
           return (
             <div key={student.id} className="rounded-xl border border-border bg-card p-6">
               <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                {/* Avatar & info */}
+
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-sm">
                     {student.avatar}
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-semibold text-foreground">{student.name}</h3>
-                    <p className="text-xs text-muted-foreground">{student.email}</p>
+                    <p className="text-xs text-muted-foreground">Matric: {student.email}</p>
+                    <p className="text-xs text-muted-foreground">{student.department} · {student.gender}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">
                       Joined {new Date(student.joinedAt).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
                     </p>
                   </div>
                 </div>
 
-                {/* Stats */}
+
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 shrink-0">
                   <div className="text-center">
                     <p className="text-lg font-bold text-foreground">{student.enrolledCount}</p>
@@ -171,7 +172,7 @@ export default function StudentsPage() {
                 </div>
               </div>
 
-              {/* Course progress bars */}
+
               {enrolledCourseDetails.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-border space-y-3">
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Course Progress</p>

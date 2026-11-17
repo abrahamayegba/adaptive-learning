@@ -36,7 +36,7 @@ export default function AnalyticsPage() {
   const analytics = getSystemAnalytics();
   const students = DEMO_USERS.filter((u) => u.role === "student");
 
-  // Per-student data
+
   const studentData = students.map((s) => {
     const prog = getUserProgress(s.id);
     const allAttempts = prog.courses.flatMap((c) => c.quizAttempts);
@@ -47,14 +47,14 @@ export default function AnalyticsPage() {
     return { ...s, avgScore, totalLessons, enrolledCount: prog.courses.length };
   });
 
-  // Bar chart: course enrollment vs completion
+
   const courseBarData = analytics.courseStats.map((c) => ({
     name: c.title.length > 16 ? c.title.slice(0, 14) + "…" : c.title,
     enrolled: c.enrolledCount,
     completed: c.completedCount,
   }));
 
-  // Pie chart: level distribution
+
   const levelCounts = DEMO_COURSES.reduce((acc, c) => {
     acc[c.level] = (acc[c.level] ?? 0) + 1;
     return acc;
@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
         </Badge>
       </div>
 
-      {/* Top stats */}
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total Students" value={analytics.totalStudents} icon={<Users className="h-5 w-5" />} />
         <StatCard label="Total Enrollments" value={analytics.totalEnrollments} icon={<BookOpen className="h-5 w-5" />} />
@@ -88,7 +88,7 @@ export default function AnalyticsPage() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          {/* Course enrollment chart */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-primary" />
@@ -116,7 +116,7 @@ export default function AnalyticsPage() {
             )}
           </section>
 
-          {/* Per-course stats table */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-primary" />
@@ -173,7 +173,7 @@ export default function AnalyticsPage() {
             </div>
           </section>
 
-          {/* Student leaderboard */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -219,9 +219,9 @@ export default function AnalyticsPage() {
           </section>
         </div>
 
-        {/* Sidebar */}
+
         <div className="space-y-6">
-          {/* Completion rate */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-primary" />
@@ -249,7 +249,7 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Level distribution */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-4">
             <h3 className="font-semibold text-sm">Courses by Level</h3>
             <ChartContainer
@@ -272,7 +272,7 @@ export default function AnalyticsPage() {
             </ChartContainer>
           </div>
 
-          {/* Quick summary */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-3">
             <h3 className="font-semibold text-sm">Platform Summary</h3>
             {[

@@ -78,7 +78,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Hero greeting */}
+
       <div className="rounded-2xl bg-sidebar text-sidebar-foreground p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <p className="text-sidebar-foreground/70 text-sm mb-1">{greetingTime()},</p>
@@ -112,7 +112,7 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* Stats */}
+
       {user.role === "student" && (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
@@ -140,9 +140,9 @@ export default function DashboardPage() {
       )}
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Main column */}
+
         <div className="lg:col-span-2 space-y-8">
-          {/* Adaptive Recommendations */}
+
           {recommendations.length > 0 && (
             <section>
               <div className="flex items-center justify-between mb-4">
@@ -181,7 +181,7 @@ export default function DashboardPage() {
             </section>
           )}
 
-          {/* My Courses */}
+
           {user.role === "student" && (
             <section>
               <div className="flex items-center justify-between mb-4">
@@ -218,7 +218,7 @@ export default function DashboardPage() {
             </section>
           )}
 
-          {/* Instructor/Admin quick actions */}
+
           {user.role !== "student" && (
             <section>
               <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
@@ -247,9 +247,9 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Sidebar */}
+
         <div className="space-y-6">
-          {/* In Progress */}
+
           {user.role === "student" && inProgressCourses.length > 0 && (
             <div className="rounded-xl border border-border bg-card p-5">
               <div className="flex items-center gap-2 mb-4">
@@ -286,7 +286,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Recent quiz results */}
+
           {user.role === "student" && allAttempts.length > 0 && (
             <div className="rounded-xl border border-border bg-card p-5">
               <div className="flex items-center gap-2 mb-4">
@@ -314,7 +314,7 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Suggested courses */}
+
           <div className="rounded-xl border border-border bg-card p-5">
             <div className="flex items-center gap-2 mb-4">
               <Target className="h-4 w-4 text-primary" />

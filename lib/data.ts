@@ -1,4 +1,4 @@
-// Demo data for the Smart Adaptive LMS
+
 
 export type UserRole = "student" | "instructor" | "admin";
 
@@ -12,13 +12,16 @@ export interface User {
   enrolledCourses: string[];
   joinedAt: string;
   bio?: string;
+  department?: string;
+  gender?: string;
+  matricNumber?: string;
 }
 
 export interface Lesson {
   id: string;
   title: string;
   type: "video" | "reading" | "interactive";
-  duration: number; // minutes
+  duration: number;
   content: string;
   videoUrl?: string;
   order: number;
@@ -47,8 +50,8 @@ export interface Quiz {
   title: string;
   description: string;
   questions: QuizQuestion[];
-  passingScore: number; // percentage
-  timeLimit?: number; // minutes
+  passingScore: number;
+  timeLimit?: number;
 }
 
 export interface Course {
@@ -64,7 +67,7 @@ export interface Course {
   tags: string[];
   modules: Module[];
   totalLessons: number;
-  totalDuration: number; // minutes
+  totalDuration: number;
   enrolledCount: number;
   rating: number;
   createdAt: string;
@@ -75,7 +78,7 @@ export interface Course {
 export interface LessonProgress {
   lessonId: string;
   completed: boolean;
-  timeSpent: number; // minutes
+  timeSpent: number;
   completedAt?: string;
 }
 
@@ -86,7 +89,7 @@ export interface QuizAttempt {
   correctAnswers: number;
   answers: number[];
   completedAt: string;
-  timeTaken: number; // seconds
+  timeTaken: number;
 }
 
 export interface CourseProgress {
@@ -95,12 +98,12 @@ export interface CourseProgress {
   lastAccessedAt: string;
   completedLessons: string[];
   quizAttempts: QuizAttempt[];
-  overallScore: number; // average quiz score
+  overallScore: number;
   currentModuleId?: string;
   currentLessonId?: string;
   completed: boolean;
   completedAt?: string;
-  timeSpent: number; // total minutes
+  timeSpent: number;
 }
 
 export interface UserProgress {
@@ -108,64 +111,16 @@ export interface UserProgress {
   courses: CourseProgress[];
 }
 
-// ---- DEMO USERS ----
 export const DEMO_USERS: User[] = [
-  {
-    id: "user-1",
-    name: "Oluwatobi Adeniran",
-    email: "student@lms.com",
-    password: "demo$$123",
-    role: "student",
-    avatar: "OA",
-    enrolledCourses: ["course-1", "course-2", "course-3"],
-    joinedAt: "2025-09-01",
-    bio: "MSc IT with Web Development student at the University of the West of Scotland, passionate about adaptive learning systems and machine learning.",
-  },
-  {
-    id: "user-2",
-    name: "Husnain Sherazi",
-    email: "instructor@lms.com",
-    password: "demo$$123",
-    role: "instructor",
-    avatar: "HS",
-    enrolledCourses: [],
-    joinedAt: "2024-01-15",
-    bio: "Senior lecturer in Computer Science and project supervisor with expertise in web technologies and intelligent systems.",
-  },
-  {
-    id: "user-3",
-    name: "Husnain Sherazi",
-    email: "admin@lms.com",
-    password: "demo$$123",
-    role: "admin",
-    avatar: "HS",
-    enrolledCourses: [],
-    joinedAt: "2024-01-01",
-    bio: "System administrator and platform supervisor for the Smart Adaptive LMS.",
-  },
-  {
-    id: "user-4",
-    name: "Jordan Williams",
-    email: "jordan@lms.com",
-    password: "demo$$123",
-    role: "student",
-    avatar: "JW",
-    enrolledCourses: ["course-1", "course-4"],
-    joinedAt: "2025-09-10",
-  },
-  {
-    id: "user-5",
-    name: "Priya Patel",
-    email: "priya@lms.com",
-    password: "demo$$123",
-    role: "student",
-    avatar: "PP",
-    enrolledCourses: ["course-2", "course-3", "course-4"],
-    joinedAt: "2025-09-05",
-  },
+  { id: "user-1", name: "Destiny Ayegba", email: "RUN/CMP/24/17176", password: "demo$$123", role: "student", avatar: "DA", enrolledCourses: ["course-1", "course-2", "course-3"], joinedAt: "2025-09-01", bio: "300-level Computer Science student.", department: "Computer Science", gender: "Female" },
+  { id: "user-2", name: "Ayanbiyi Abiodun", email: "Run/cmp/24/17174", password: "demo$$123", role: "student", avatar: "AA", enrolledCourses: ["course-1", "course-4"], joinedAt: "2025-09-01", bio: "300-level Computer Science student.", department: "Computer Science", gender: "Male" },
+  { id: "user-3", name: "Inioluwa Ayandare", email: "run/cmp/24/17175", password: "demo$$123", role: "student", avatar: "IA", enrolledCourses: ["course-2", "course-3", "course-4"], joinedAt: "2025-09-01", bio: "300-level Information Technology student.", department: "Information Technology", gender: "Male" },
+  { id: "user-4", name: "Adeshola Emiloju", email: "run/cmp/24/17189", password: "demo$$123", role: "student", avatar: "AE", enrolledCourses: ["course-1", "course-3"], joinedAt: "2025-09-01", bio: "300-level Computer Science student.", department: "Computer Science", gender: "Male" },
+  { id: "user-5", name: "Kolawole Balogun", email: "run/cmp/24/17178", password: "demo$$123", role: "student", avatar: "KB", enrolledCourses: ["course-2", "course-4"], joinedAt: "2025-09-01", bio: "300-level student.", department: "Not provided", gender: "Not provided" },
+  { id: "user-6", name: "Miss Oluwaseun Amore", email: "instructor", password: "demo$$123", role: "instructor", avatar: "OA", enrolledCourses: [], joinedAt: "2025-09-01", bio: "Course instructor for the 300-level learning portal.", department: "Computer Science", gender: "Female" },
 ];
 
-// ---- DEMO QUIZZES ----
+
 export const DEMO_QUIZZES: Quiz[] = [
   {
     id: "quiz-1",
@@ -518,18 +473,18 @@ export const DEMO_QUIZZES: Quiz[] = [
   },
 ];
 
-// ---- DEMO COURSES ----
-export const DEMO_COURSES: Course[] = [
+
+const BASE_COURSES: Course[] = [
   {
     id: "course-1",
-    title: "Complete Web Development Bootcamp",
-    shortDescription: "Master HTML, CSS, JavaScript and build real-world websites from scratch.",
+    title: "CSC 301 · Data Structures",
+    shortDescription: "Explore core data structures, algorithms, and problem-solving techniques.",
     description:
-      "This comprehensive web development course covers everything you need to go from beginner to a job-ready web developer. You'll learn HTML5, CSS3, Flexbox, Grid, JavaScript ES6+, responsive design, and modern best practices. By the end, you'll have built multiple real-world projects including a portfolio website, a landing page, and an interactive web app.",
-    instructor: "Husnain Sherazi",
-    instructorId: "user-2",
-    category: "Web Development",
-    level: "Beginner",
+      "Study arrays, linked lists, stacks, queues, trees, graphs, searching, sorting, and algorithm analysis through guided 300-level practice. This prototype uses sample learning content.",
+    instructor: "Miss Oluwaseun Amore",
+    instructorId: "user-6",
+    category: "Data Structures",
+    level: "Intermediate",
     thumbnail: "/images/course-web-dev.jpg",
     tags: ["HTML", "CSS", "JavaScript", "Responsive Design"],
     enrolledCount: 1284,
@@ -634,16 +589,16 @@ Attributes provide additional information about HTML elements. They are always s
 ### Common Attributes
 
 \`\`\`html
-<!-- The href attribute specifies the URL -->
+
 <a href="https://example.com">Visit Example</a>
 
-<!-- The src attribute specifies the image source -->
+
 <img src="photo.jpg" alt="A beautiful photo">
 
-<!-- The class attribute applies CSS styles -->
+
 <p class="highlight">This text is highlighted.</p>
 
-<!-- The id attribute provides a unique identifier -->
+
 <div id="main-content">Main content here</div>
 \`\`\`
 
@@ -655,13 +610,13 @@ Forms are used to collect user input:
 <form action="/submit" method="POST">
   <label for="name">Name:</label>
   <input type="text" id="name" name="name" required>
-  
+
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" required>
-  
+
   <label for="message">Message:</label>
   <textarea id="message" name="message" rows="4"></textarea>
-  
+
   <button type="submit">Send Message</button>
 </form>
 \`\`\`
@@ -760,19 +715,19 @@ selector {
 ## CSS Selectors
 
 \`\`\`css
-/* Element selector */
+
 p { color: gray; }
 
-/* Class selector */
+
 .highlight { background-color: yellow; }
 
-/* ID selector */
+
 #header { font-size: 32px; }
 
-/* Descendant selector */
+
 nav a { text-decoration: none; }
 
-/* Pseudo-class */
+
 a:hover { color: red; }
 \`\`\`
 
@@ -845,7 +800,7 @@ Use relative units (%, em, rem) instead of fixed pixels:
 }
 
 .column {
-  width: 50%; /* Instead of 600px */
+  width: 50%;
 }
 \`\`\`
 
@@ -862,20 +817,20 @@ img {
 Media queries allow you to apply different styles for different screen sizes:
 
 \`\`\`css
-/* Default styles (mobile-first) */
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
 }
 
-/* Tablet and above */
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Desktop and above */
+
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: 1fr 1fr 1fr;
@@ -938,37 +893,29 @@ JavaScript is the programming language of the web. It allows you to make your we
 In modern JavaScript, use \`const\` and \`let\`:
 
 \`\`\`javascript
-// const - cannot be reassigned
 const PI = 3.14159;
-const siteName = "SmartLMS";
+const siteName = "LevelUp";
 
-// let - can be reassigned
 let userScore = 0;
 userScore = 85;
 
-// var - old way, avoid in modern code
 var oldVariable = "legacy";
 \`\`\`
 
 ## Primitive Data Types
 
 \`\`\`javascript
-// String
 const name = "Alice";
 const greeting = \`Hello, \${name}!\`; // Template literal
 
-// Number
 const age = 25;
 const price = 9.99;
 
-// Boolean
 const isLoggedIn = true;
 const isComplete = false;
 
-// null - intentional absence of value
 const emptyValue = null;
 
-// undefined - variable declared but not assigned
 let notAssigned;
 console.log(notAssigned); // undefined
 \`\`\`
@@ -976,7 +923,6 @@ console.log(notAssigned); // undefined
 ## Objects & Arrays
 
 \`\`\`javascript
-// Object
 const student = {
   name: "Alex",
   age: 22,
@@ -984,11 +930,9 @@ const student = {
   isEnrolled: true
 };
 
-// Access properties
 console.log(student.name); // "Alex"
 console.log(student["course"]); // "Web Development"
 
-// Array
 const grades = [85, 92, 78, 96, 88];
 console.log(grades[0]); // 85
 console.log(grades.length); // 5
@@ -997,12 +941,10 @@ console.log(grades.length); // 5
 ## Functions
 
 \`\`\`javascript
-// Function declaration
 function greetStudent(name) {
   return \`Welcome back, \${name}!\`;
 }
 
-// Arrow function
 const calculateAverage = (scores) => {
   const sum = scores.reduce((acc, score) => acc + score, 0);
   return sum / scores.length;
@@ -1032,13 +974,10 @@ The Document Object Model (DOM) is a programming interface for web documents. It
 ## Selecting Elements
 
 \`\`\`javascript
-// By ID
 const header = document.getElementById("main-header");
 
-// By class name
 const buttons = document.getElementsByClassName("btn");
 
-// By CSS selector (modern approach)
 const navLink = document.querySelector(".nav-link");
 const allCards = document.querySelectorAll(".card");
 \`\`\`
@@ -1046,17 +985,13 @@ const allCards = document.querySelectorAll(".card");
 ## Modifying Elements
 
 \`\`\`javascript
-// Change text content
 element.textContent = "New Text";
 
-// Change HTML content
 element.innerHTML = "<strong>Bold Text</strong>";
 
-// Modify styles
 element.style.color = "blue";
 element.style.fontSize = "18px";
 
-// Add/remove CSS classes
 element.classList.add("active");
 element.classList.remove("hidden");
 element.classList.toggle("selected");
@@ -1065,12 +1000,10 @@ element.classList.toggle("selected");
 ## Creating & Adding Elements
 
 \`\`\`javascript
-// Create a new element
 const newCard = document.createElement("div");
 newCard.classList.add("card");
 newCard.textContent = "New Course Card";
 
-// Add to the page
 const container = document.querySelector(".container");
 container.appendChild(newCard);
 \`\`\`
@@ -1080,21 +1013,18 @@ container.appendChild(newCard);
 \`\`\`javascript
 const submitBtn = document.querySelector("#submit-btn");
 
-// Add event listener
 submitBtn.addEventListener("click", function(event) {
   event.preventDefault(); // Prevent form submission
   console.log("Button clicked!");
   validateForm();
 });
 
-// Common events
 element.addEventListener("click", handler);
 element.addEventListener("mouseover", handler);
 element.addEventListener("keydown", handler);
 element.addEventListener("input", handler);
 element.addEventListener("submit", handler);
 
-// Event delegation (efficient for dynamic content)
 document.querySelector(".course-list").addEventListener("click", (e) => {
   if (e.target.classList.contains("enroll-btn")) {
     enrollInCourse(e.target.dataset.courseId);
@@ -1140,11 +1070,9 @@ JavaScript uses an event loop to handle asynchronous operations without blocking
 ## Callbacks (Old Approach)
 
 \`\`\`javascript
-// Callback hell - avoid this!
 fetchUser(userId, function(user) {
   fetchCourses(user.id, function(courses) {
     fetchGrades(courses[0].id, function(grades) {
-      // Deeply nested - hard to read and maintain
       displayResults(grades);
     });
   });
@@ -1154,7 +1082,6 @@ fetchUser(userId, function(user) {
 ## Promises
 
 \`\`\`javascript
-// Promise chain - better
 fetchUser(userId)
   .then(user => fetchCourses(user.id))
   .then(courses => fetchGrades(courses[0].id))
@@ -1165,7 +1092,6 @@ fetchUser(userId)
 ## Async/Await (Modern Approach)
 
 \`\`\`javascript
-// Clean, readable async code
 async function loadStudentData(userId) {
   try {
     const user = await fetchUser(userId);
@@ -1178,10 +1104,8 @@ async function loadStudentData(userId) {
   }
 }
 
-// Parallel execution
 async function loadDashboard(userId) {
   try {
-    // Run both fetches simultaneously
     const [user, notifications] = await Promise.all([
       fetchUser(userId),
       fetchNotifications(userId)
@@ -1196,13 +1120,10 @@ async function loadDashboard(userId) {
 ## Local Storage
 
 \`\`\`javascript
-// Save data
 localStorage.setItem("userPrefs", JSON.stringify({ theme: "dark" }));
 
-// Retrieve data
 const prefs = JSON.parse(localStorage.getItem("userPrefs"));
 
-// Remove data
 localStorage.removeItem("userPrefs");
 \`\`\`
 
@@ -1226,16 +1147,12 @@ ES6 (ECMAScript 2015) and later versions introduced powerful features that moder
 ## Destructuring
 
 \`\`\`javascript
-// Array destructuring
 const [first, second, ...rest] = [1, 2, 3, 4, 5];
 console.log(first); // 1
 console.log(rest);  // [3, 4, 5]
 
-// Object destructuring
 const { name, age, role = "student" } = user;
-// Default value of "student" if role is undefined
 
-// In function parameters
 function displayUser({ name, email, role }) {
   console.log(\`\${name} (\${role}): \${email}\`);
 }
@@ -1244,15 +1161,12 @@ function displayUser({ name, email, role }) {
 ## Spread & Rest Operators
 
 \`\`\`javascript
-// Spread array
 const arr1 = [1, 2, 3];
 const arr2 = [...arr1, 4, 5, 6]; // [1, 2, 3, 4, 5, 6]
 
-// Spread object
 const user = { name: "Alex", age: 22 };
 const updatedUser = { ...user, role: "student" };
 
-// Rest parameters
 function sum(...numbers) {
   return numbers.reduce((acc, n) => acc + n, 0);
 }
@@ -1267,21 +1181,16 @@ const courses = [
   { id: 3, title: "Node.js", level: "advanced", enrolled: true },
 ];
 
-// filter - returns matching items
 const enrolledCourses = courses.filter(c => c.enrolled);
 
-// map - transforms each item
 const titles = courses.map(c => c.title);
 
-// find - returns first match
 const beginnerCourse = courses.find(c => c.level === "beginner");
 
-// reduce - accumulates a value
-const enrolledCount = courses.reduce((count, c) => 
+const enrolledCount = courses.reduce((count, c) =>
   c.enrolled ? count + 1 : count, 0
 );
 
-// Chaining
 const enrolledTitles = courses
   .filter(c => c.enrolled)
   .map(c => c.title);
@@ -1290,16 +1199,13 @@ const enrolledTitles = courses
 ## Modules
 
 \`\`\`javascript
-// math.js - named exports
 export const add = (a, b) => a + b;
 export const multiply = (a, b) => a * b;
 
-// utils.js - default export
 export default function formatDate(date) {
   return new Intl.DateTimeFormat("en-GB").format(date);
 }
 
-// main.js - importing
 import formatDate from "./utils.js";
 import { add, multiply } from "./math.js";
 \`\`\`
@@ -1314,13 +1220,13 @@ Modern JavaScript features make code more readable, concise, and maintainable. M
   },
   {
     id: "course-2",
-    title: "React & Modern Frontend Development",
-    shortDescription: "Build dynamic web applications using React 19, hooks, and modern state management.",
+    title: "CSC 307 · Operating Systems",
+    shortDescription: "Explore processes, memory management, concurrency, and operating system design.",
     description:
-      "Dive deep into React, the most popular JavaScript library for building user interfaces. This course covers React fundamentals through advanced patterns including hooks, context, custom hooks, performance optimization, and integrating with REST APIs. You'll build a complete project-based application by the end of the course.",
-    instructor: "Husnain Sherazi",
-    instructorId: "user-2",
-    category: "Web Development",
+      "Examine current directions in computer science, emerging technologies, and innovation practices. Lessons and assessment examples are sample content for this 300-level project.",
+    instructor: "Miss Oluwaseun Amore",
+    instructorId: "user-6",
+    category: "Operating Systems",
     level: "Intermediate",
     thumbnail: "/images/course-react.jpg",
     tags: ["React", "JavaScript", "Frontend", "Hooks", "State Management"],
@@ -1363,7 +1269,6 @@ React is a JavaScript library for building user interfaces, developed by Faceboo
 ## Your First React Component
 
 \`\`\`jsx
-// Functional Component
 function WelcomeCard({ name, role }) {
   return (
     <div className="card">
@@ -1373,7 +1278,6 @@ function WelcomeCard({ name, role }) {
   );
 }
 
-// Using the component
 function App() {
   return (
     <main>
@@ -1387,7 +1291,6 @@ function App() {
 ## JSX Rules
 
 \`\`\`jsx
-// 1. Return a single root element (or use Fragment)
 function Component() {
   return (
     <>
@@ -1397,15 +1300,8 @@ function Component() {
   );
 }
 
-// 2. Close all tags
-// Wrong: <img src="photo.jpg">
-// Right: <img src="photo.jpg" />
 
-// 3. Use camelCase for attributes
-// Wrong: class="container"
-// Right: className="container"
 
-// 4. JavaScript expressions in curly braces
 const message = "Hello";
 return <h1>{message}</h1>;
 \`\`\`
@@ -1415,7 +1311,6 @@ return <h1>{message}</h1>;
 Props allow you to pass data from parent to child components:
 
 \`\`\`jsx
-// Parent passes props
 <CourseCard
   title="Web Development"
   level="Beginner"
@@ -1423,7 +1318,6 @@ Props allow you to pass data from parent to child components:
   enrolledCount={1284}
 />
 
-// Child receives and uses props
 function CourseCard({ title, level, instructor, enrolledCount }) {
   return (
     <div className="course-card">
@@ -1467,7 +1361,7 @@ function QuizComponent() {
     if (selectedIndex === questions[currentQuestion].correct) {
       setScore(prev => prev + 1);
     }
-    
+
     if (currentQuestion + 1 >= questions.length) {
       setIsFinished(true);
     } else {
@@ -1496,26 +1390,16 @@ function QuizComponent() {
 ## State Update Rules
 
 \`\`\`jsx
-// 1. Never mutate state directly
-// Wrong:
 state.count++;
-// Right:
 setState(prev => prev + 1);
 
-// 2. Objects - spread to create new object
 const [user, setUser] = useState({ name: "Alex", score: 0 });
-// Wrong:
 user.score = 85;
-// Right:
 setUser(prev => ({ ...prev, score: 85 }));
 
-// 3. Arrays - use array methods that return new arrays
 const [courses, setCourses] = useState([]);
-// Add item:
 setCourses(prev => [...prev, newCourse]);
-// Remove item:
 setCourses(prev => prev.filter(c => c.id !== courseId));
-// Update item:
 setCourses(prev => prev.map(c => c.id === id ? { ...c, enrolled: true } : c));
 \`\`\`
 
@@ -1554,14 +1438,13 @@ When multiple components need to share state, lift it to their closest common an
 
 \`\`\`jsx
 function CourseFilter() {
-  // Shared state lives in parent
   const [selectedLevel, setSelectedLevel] = useState("all");
-  
+
   return (
     <>
-      <FilterButtons 
-        selected={selectedLevel} 
-        onChange={setSelectedLevel} 
+      <FilterButtons
+        selected={selectedLevel}
+        onChange={setSelectedLevel}
       />
       <CourseGrid level={selectedLevel} />
     </>
@@ -1597,16 +1480,13 @@ function CourseList() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // This runs after every render by default
     fetchCourses();
   });
 
-  // With dependency array - runs once on mount
   useEffect(() => {
     fetchCourses();
   }, []);
 
-  // With dependencies - runs when dependencies change
   useEffect(() => {
     fetchCoursesByCategory(selectedCategory);
   }, [selectedCategory]);
@@ -1644,7 +1524,6 @@ function StudentProgress({ studentId }) {
 
     loadProgress();
 
-    // Cleanup function
     return () => {
       isMounted = false;
     };
@@ -1660,12 +1539,10 @@ function StudentProgress({ studentId }) {
 
 \`\`\`jsx
 useEffect(() => {
-  // Set up subscription or timer
   const timer = setInterval(() => {
     updateProgress();
   }, 5000);
 
-  // Cleanup: runs before re-run and on unmount
   return () => clearInterval(timer);
 }, []);
 \`\`\`
@@ -1689,7 +1566,6 @@ function useLocalStorage(key, initialValue) {
   return [value, setStoredValue];
 }
 
-// Usage
 const [theme, setTheme] = useLocalStorage("theme", "light");
 \`\`\`
 
@@ -1706,13 +1582,13 @@ const [theme, setTheme] = useLocalStorage("theme", "light");
   },
   {
     id: "course-3",
-    title: "Python for Data Science & Machine Learning",
-    shortDescription: "Learn Python, NumPy, Pandas, and Scikit-learn to analyse data and build ML models.",
+    title: "CSC 321 · Computer Science Innovation and New Technologies",
+    shortDescription: "Investigate new technologies and innovation in contemporary computer science.",
     description:
       "This comprehensive data science course takes you from Python basics to implementing machine learning algorithms. You'll work with real datasets using NumPy and Pandas for data manipulation, Matplotlib for visualisation, and Scikit-learn for machine learning. The course includes hands-on projects covering regression, classification, and data analysis.",
-    instructor: "Husnain Sherazi",
-    instructorId: "user-2",
-    category: "Data Science",
+    instructor: "Miss Oluwaseun Amore",
+    instructorId: "user-6",
+    category: "Innovation",
     level: "Intermediate",
     thumbnail: "/images/course-python.jpg",
     tags: ["Python", "Machine Learning", "Data Science", "NumPy", "Pandas"],
@@ -2234,7 +2110,7 @@ Track key learner attributes:
 class AdaptiveLearningEngine:
     def __init__(self):
         self.difficulty_levels = ['beginner', 'intermediate', 'advanced']
-    
+
     def calculate_proficiency(self, quiz_scores, lesson_times):
         """
         Calculate learner proficiency based on performance data.
@@ -2242,19 +2118,19 @@ class AdaptiveLearningEngine:
         """
         if not quiz_scores:
             return 50  # Default to intermediate
-        
+
         avg_score = sum(quiz_scores) / len(quiz_scores)
         consistency = 1 - (max(quiz_scores) - min(quiz_scores)) / 100
-        
+
         # Weight recent performance more heavily
         recency_weights = [0.5 ** i for i in range(len(quiz_scores))]
         recency_weights = [w / sum(recency_weights) for w in recency_weights]
         weighted_score = sum(s * w for s, w in zip(reversed(quiz_scores), recency_weights))
-        
+
         # Combine metrics
         proficiency = 0.6 * weighted_score + 0.2 * avg_score + 0.2 * consistency * 100
         return min(100, max(0, proficiency))
-    
+
     def recommend_difficulty(self, proficiency_score):
         """Map proficiency to recommended difficulty."""
         if proficiency_score < 40:
@@ -2263,7 +2139,7 @@ class AdaptiveLearningEngine:
             return 'intermediate'
         else:
             return 'advanced'
-    
+
     def recommend_next_content(self, learner_profile, available_content):
         """
         Rule-based content recommendation.
@@ -2273,19 +2149,19 @@ class AdaptiveLearningEngine:
             learner_profile['lesson_times']
         )
         recommended_level = self.recommend_difficulty(proficiency)
-        
+
         # Filter content by recommended level
-        suitable = [c for c in available_content 
-                   if c['difficulty'] == recommended_level 
+        suitable = [c for c in available_content
+                   if c['difficulty'] == recommended_level
                    and c['id'] not in learner_profile['completed']]
-        
+
         if not suitable:
             # Fall back to any uncompleted content
-            suitable = [c for c in available_content 
+            suitable = [c for c in available_content
                        if c['id'] not in learner_profile['completed']]
-        
+
         # Sort by relevance (topics learner struggles with)
-        return sorted(suitable, key=lambda c: 
+        return sorted(suitable, key=lambda c:
                       -learner_profile['topic_scores'].get(c['topic'], 50))[:5]
 \`\`\`
 
@@ -2294,7 +2170,7 @@ class AdaptiveLearningEngine:
 \`\`\`python
 def generate_adaptive_feedback(score, topic, previous_attempts):
     """Generate personalised feedback based on performance."""
-    
+
     if score >= 90:
         feedback = {
             "type": "excellence",
@@ -2324,11 +2200,11 @@ def generate_adaptive_feedback(score, topic, previous_attempts):
             "next_difficulty": "beginner",
             "suggest_resources": True
         }
-    
+
     # Adjust for repeated attempts
     if len(previous_attempts) >= 3:
         feedback["additional"] = "Consider seeking help from your instructor."
-    
+
     return feedback
 \`\`\`
 
@@ -2364,13 +2240,13 @@ Adaptive learning bridges the gap between one-size-fits-all education and truly 
   },
   {
     id: "course-4",
-    title: "Database Design & SQL Mastery",
-    shortDescription: "Master relational database design, SQL queries, and database optimisation techniques.",
+    title: "DTS 305 · Data Management I",
+    shortDescription: "Manage data with relational concepts, SQL operations, data integrity, and database design.",
     description:
-      "A comprehensive guide to relational database design and SQL. Learn to design normalised schemas, write complex queries with joins and aggregations, optimise query performance, and understand transactions and concurrency. Practical exercises use PostgreSQL with real-world datasets.",
-    instructor: "Husnain Sherazi",
-    instructorId: "user-2",
-    category: "Database",
+      "Build foundational data management skills, including relational data, SQL operations, data integrity, and introductory database design. Activities use demo records only.",
+    instructor: "Miss Oluwaseun Amore",
+    instructorId: "user-6",
+    category: "Data Management",
     level: "Beginner",
     thumbnail: "/images/course-database.jpg",
     tags: ["SQL", "PostgreSQL", "Database Design", "Query Optimisation"],
@@ -2419,7 +2295,6 @@ Relational databases organise data into **tables** (also called relations) with 
 ## Example: LMS Database Schema
 
 \`\`\`sql
--- Users table
 CREATE TABLE users (
     user_id    SERIAL PRIMARY KEY,
     name       VARCHAR(100) NOT NULL,
@@ -2428,7 +2303,6 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Courses table
 CREATE TABLE courses (
     course_id   SERIAL PRIMARY KEY,
     title       VARCHAR(200) NOT NULL,
@@ -2437,7 +2311,6 @@ CREATE TABLE courses (
     instructor_id INT REFERENCES users(user_id)
 );
 
--- Enrollments (junction table for many-to-many)
 CREATE TABLE enrollments (
     enrollment_id SERIAL PRIMARY KEY,
     user_id       INT REFERENCES users(user_id) ON DELETE CASCADE,
@@ -2451,36 +2324,29 @@ CREATE TABLE enrollments (
 ## Basic SQL Commands
 
 \`\`\`sql
--- SELECT: Retrieve data
 SELECT name, email FROM users WHERE role = 'student';
 
--- INSERT: Add new records
 INSERT INTO users (name, email, role)
 VALUES ('Alex Johnson', 'alex@example.com', 'student');
 
--- UPDATE: Modify existing records
 UPDATE users
 SET name = 'Alexander Johnson'
 WHERE email = 'alex@example.com';
 
--- DELETE: Remove records
 DELETE FROM users WHERE user_id = 5;
 \`\`\`
 
 ## Filtering and Sorting
 
 \`\`\`sql
--- WHERE clause with conditions
 SELECT * FROM courses
 WHERE level = 'Beginner'
   AND instructor_id IS NOT NULL;
 
--- ORDER BY
 SELECT title, rating
 FROM courses
 ORDER BY rating DESC, title ASC;
 
--- LIMIT and OFFSET (pagination)
 SELECT * FROM courses
 ORDER BY created_at DESC
 LIMIT 10 OFFSET 20;  -- Page 3 of 10-per-page results
@@ -2503,8 +2369,7 @@ Joins allow you to combine data from multiple tables, while aggregations summari
 ## Types of Joins
 
 \`\`\`sql
--- INNER JOIN: Only rows with matches in both tables
-SELECT 
+SELECT
     u.name AS student_name,
     c.title AS course_title,
     e.enrolled_at
@@ -2513,8 +2378,7 @@ INNER JOIN users u ON e.user_id = u.user_id
 INNER JOIN courses c ON e.course_id = c.course_id
 WHERE u.role = 'student';
 
--- LEFT JOIN: All rows from left table, matching from right
-SELECT 
+SELECT
     u.name,
     COUNT(e.enrollment_id) AS courses_enrolled
 FROM users u
@@ -2527,8 +2391,7 @@ ORDER BY courses_enrolled DESC;
 ## Aggregation Functions
 
 \`\`\`sql
--- COUNT, AVG, SUM, MIN, MAX
-SELECT 
+SELECT
     c.title,
     COUNT(e.user_id) AS enrolled_students,
     AVG(qa.score) AS avg_quiz_score,
@@ -2544,8 +2407,7 @@ ORDER BY enrolled_students DESC;
 ## HAVING Clause
 
 \`\`\`sql
--- HAVING filters after GROUP BY (WHERE filters before)
-SELECT 
+SELECT
     c.title,
     COUNT(e.user_id) AS enrolled_students
 FROM courses c
@@ -2558,8 +2420,7 @@ ORDER BY enrolled_students DESC;
 ## Window Functions (Advanced)
 
 \`\`\`sql
--- Rank students by score within each course
-SELECT 
+SELECT
     u.name,
     c.title,
     qa.score,
@@ -2574,9 +2435,8 @@ JOIN courses c ON e.course_id = c.course_id;
 ## Practical: Analytics Query
 
 \`\`\`sql
--- Comprehensive learner performance report
 WITH learner_stats AS (
-    SELECT 
+    SELECT
         u.user_id,
         u.name,
         COUNT(DISTINCT e.course_id) AS courses_enrolled,
@@ -2590,10 +2450,10 @@ WITH learner_stats AS (
     WHERE u.role = 'student'
     GROUP BY u.user_id, u.name
 )
-SELECT 
+SELECT
     *,
     ROUND(courses_completed::numeric / NULLIF(courses_enrolled, 0) * 100, 1) AS completion_rate,
-    CASE 
+    CASE
         WHEN avg_score >= 85 THEN 'High Performer'
         WHEN avg_score >= 70 THEN 'On Track'
         ELSE 'Needs Support'
@@ -2626,11 +2486,7 @@ Good database design prevents data redundancy and inconsistency through a proces
 - No repeating groups of columns
 
 \`\`\`sql
--- BAD: courses column contains multiple values
--- user_id | name  | courses
--- 1       | Alice | "Web Dev, React, Python"
 
--- GOOD: Separate enrollments table
 CREATE TABLE enrollments (
     user_id   INT REFERENCES users(user_id),
     course_id INT REFERENCES courses(course_id),
@@ -2663,16 +2519,13 @@ USERS ──< ENROLLMENTS >── COURSES
 ## Indexing Strategy
 
 \`\`\`sql
--- Index columns used in WHERE, JOIN, ORDER BY
 CREATE INDEX idx_enrollments_user ON enrollments(user_id);
 CREATE INDEX idx_enrollments_course ON enrollments(course_id);
 CREATE INDEX idx_quiz_attempts_score ON quiz_attempts(score);
 CREATE INDEX idx_users_email ON users(email);
 
--- Composite index for common query pattern
 CREATE INDEX idx_enrollments_user_course ON enrollments(user_id, course_id);
 
--- Partial index for active users
 CREATE INDEX idx_active_users ON users(last_active)
 WHERE is_active = TRUE;
 \`\`\`
@@ -2680,36 +2533,26 @@ WHERE is_active = TRUE;
 ## Transactions & ACID Properties
 
 \`\`\`sql
--- ACID: Atomicity, Consistency, Isolation, Durability
 BEGIN;
 
--- Enroll student and update count atomically
 INSERT INTO enrollments (user_id, course_id) VALUES (42, 7);
 UPDATE courses SET enrolled_count = enrolled_count + 1 WHERE course_id = 7;
 INSERT INTO activity_log (user_id, action) VALUES (42, 'enrolled_in_course_7');
 
 COMMIT;  -- All succeed together
 
--- If anything fails:
 ROLLBACK;  -- Nothing is changed
 \`\`\`
 
 ## Performance Optimisation
 
 \`\`\`sql
--- EXPLAIN ANALYZE shows query execution plan
 EXPLAIN ANALYZE
-SELECT u.name, COUNT(e.*) 
-FROM users u 
-JOIN enrollments e ON u.user_id = e.user_id 
+SELECT u.name, COUNT(e.*)
+FROM users u
+JOIN enrollments e ON u.user_id = e.user_id
 GROUP BY u.user_id;
 
--- Tips:
--- 1. Add indexes on join and filter columns
--- 2. Avoid SELECT * in production
--- 3. Use LIMIT for pagination
--- 4. Use CTEs for complex queries
--- 5. Consider materialised views for expensive aggregations
 \`\`\`
 
 ## Summary
@@ -2722,22 +2565,59 @@ Proper database design ensures data integrity, reduces redundancy, and improves 
   },
 ];
 
-// Helper to get course by ID
+const ADDITIONAL_COURSES = [
+  { code: "ICT 305", title: "Data Communication System and Network", category: "Networking" },
+  { code: "SEN 301", title: "Object Oriented Analysis and Design", category: "Software Engineering" },
+  { code: "DTS 301", title: "Big Data Computing", category: "Data Science" },
+  { code: "GIT 313", title: "Cisco Certified Network Associate", category: "Networking" },
+  { code: "FIC 303", title: "Theology of Science and Innovation", category: "General Studies" },
+  { code: "IFT 301", title: "Web Application Development", category: "Web Development" },
+  { code: "IFT 355", title: "Database Programming", category: "Database" },
+];
+
+export const DEMO_COURSES: Course[] = [
+  ...BASE_COURSES,
+  ...ADDITIONAL_COURSES.map((course, index) => {
+    const source = BASE_COURSES[index % BASE_COURSES.length];
+    const id = `course-${index + BASE_COURSES.length + 1}`;
+    return {
+      ...source,
+      id,
+      title: `${course.code} · ${course.title}`,
+      shortDescription: `300-level course module: ${course.title}.`,
+      description: `${course.title} is included as a sample 300-level course. Learning materials and activities use demo content for this project prototype.`,
+      instructor: "Miss Oluwaseun Amore",
+      instructorId: "user-6",
+      category: course.category,
+      tags: [course.code, course.category, "300 Level"],
+      modules: source.modules.map((module, moduleIndex) => ({
+        ...module,
+        id: `${id}-module-${moduleIndex + 1}`,
+        lessons: module.lessons.map((lesson, lessonIndex) => ({
+          ...lesson,
+          id: `${id}-module-${moduleIndex + 1}-lesson-${lessonIndex + 1}`,
+        })),
+      })),
+    };
+  }),
+];
+
 export function getCourseById(id: string): Course | undefined {
   return DEMO_COURSES.find((c) => c.id === id);
 }
 
-// Helper to get quiz by ID
+
 export function getQuizById(id: string): Quiz | undefined {
   return DEMO_QUIZZES.find((q) => q.id === id);
 }
 
-// Helper to get user by email
+
 export function getUserByEmail(email: string): User | undefined {
-  return DEMO_USERS.find((u) => u.email === email);
+  const normalized = email.trim().toLowerCase();
+  return DEMO_USERS.find((u) => u.email.toLowerCase() === normalized);
 }
 
-// Helper to get user by ID
+
 export function getUserById(id: string): User | undefined {
   return DEMO_USERS.find((u) => u.id === id);
 }

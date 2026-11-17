@@ -12,7 +12,7 @@ import { DEMO_COURSES } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
-const CATEGORIES = ["All", "Web Development", "Data Science", "Database"] as const;
+const CATEGORIES = ["All", "Data Structures", "Operating Systems", "Innovation", "Data Management", "Networking", "Software Engineering", "Data Science", "General Studies", "Web Development", "Database"] as const;
 
 export default function CoursesPage() {
   const router = useRouter();
@@ -52,7 +52,7 @@ export default function CoursesPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+
       <div>
         <h1 className="text-3xl font-bold text-foreground">Course Catalogue</h1>
         <p className="text-muted-foreground mt-1">
@@ -60,7 +60,7 @@ export default function CoursesPage() {
         </p>
       </div>
 
-      {/* Search & Filters */}
+
       <div className="space-y-3">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -111,7 +111,7 @@ export default function CoursesPage() {
         </div>
       </div>
 
-      {/* Stats bar */}
+
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
         <span>{filtered.length} course{filtered.length !== 1 ? "s" : ""} found</span>
         {user?.role === "student" && (
@@ -122,7 +122,7 @@ export default function CoursesPage() {
         )}
       </div>
 
-      {/* Course grid */}
+
       {filtered.length === 0 ? (
         <div className="rounded-xl border-2 border-dashed border-border p-12 text-center">
           <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
@@ -146,7 +146,7 @@ export default function CoursesPage() {
         </div>
       )}
 
-      {/* Featured instructors */}
+
       <div className="rounded-xl border border-border bg-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
           <Star className="h-4 w-4 text-amber-500 fill-amber-500" />

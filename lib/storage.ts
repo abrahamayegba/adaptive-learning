@@ -13,15 +13,15 @@ import {
 const STORAGE_KEYS = {
   CURRENT_USER: "lms_current_user",
   USER_PROGRESS: "lms_user_progress",
-  INITIALIZED: "lms_initialized_v2",
+  INITIALIZED: "lms_initialized_v3",
 };
 
-// ---- INITIALIZATION ----
+
 export function initializeDemoData(): void {
   if (typeof window === "undefined") return;
   if (localStorage.getItem(STORAGE_KEYS.INITIALIZED)) return;
 
-  // Seed progress for demo student (user-1)
+
   const demoProgress: UserProgress = {
     userId: "user-1",
     courses: [
@@ -83,7 +83,7 @@ export function initializeDemoData(): void {
   localStorage.setItem(STORAGE_KEYS.INITIALIZED, "true");
 }
 
-// ---- AUTH ----
+
 export function loginUser(email: string, password: string): { success: boolean; user?: User; error?: string } {
   const user = getUserByEmail(email);
   if (!user) return { success: false, error: "No account found with that email." };
@@ -109,7 +109,7 @@ export function getCurrentUser(): User | null {
   }
 }
 
-// ---- PROGRESS ----
+
 function getAllProgress(): UserProgress[] {
   if (typeof window === "undefined") return [];
   const stored = localStorage.getItem(STORAGE_KEYS.USER_PROGRESS);
@@ -167,7 +167,7 @@ export function enrollInCourse(userId: string, courseId: string): void {
 
   saveAllProgress(all);
 
-  // Also update user's enrolled courses in localStorage
+
   const current = getCurrentUser();
   if (current && current.id === userId) {
     if (!current.enrolledCourses.includes(courseId)) {
@@ -191,7 +191,7 @@ export function markLessonComplete(userId: string, courseId: string, lessonId: s
   courseProg.timeSpent += timeSpent;
   courseProg.lastAccessedAt = new Date().toISOString();
 
-  // Check if course is complete
+
   const course = DEMO_COURSES.find((c) => c.id === courseId);
   if (course) {
     const allLessons = course.modules.flatMap((m) => m.lessons.map((l) => l.id));
@@ -218,7 +218,7 @@ export function saveQuizAttempt(
 
   courseProg.quizAttempts.push(attempt);
 
-  // Recalculate overall score
+
   if (courseProg.quizAttempts.length > 0) {
     courseProg.overallScore =
       courseProg.quizAttempts.reduce((sum, a) => sum + a.score, 0) /
@@ -248,7 +248,7 @@ export function updateCurrentLesson(
   saveAllProgress(all);
 }
 
-// ---- ADAPTIVE ENGINE ----
+
 export interface AdaptiveRecommendation {
   type: "review" | "continue" | "advance" | "challenge";
   title: string;
@@ -265,7 +265,7 @@ export function getAdaptiveRecommendations(userId: string): AdaptiveRecommendati
 
   const recommendations: AdaptiveRecommendation[] = [];
 
-  // Analyse quiz performance
+
   for (const courseProg of progress.courses) {
     const course = DEMO_COURSES.find((c) => c.id === courseProg.courseId);
     if (!course) continue;
@@ -300,7 +300,7 @@ export function getAdaptiveRecommendations(userId: string): AdaptiveRecommendati
     }
   }
 
-  // Suggest unenrolled courses
+
   const enrolledIds = progress.courses.map((c) => c.courseId);
   const unenrolled = DEMO_COURSES.filter((c) => !enrolledIds.includes(c.id));
 
@@ -354,7 +354,7 @@ export function getAdaptiveFeedback(score: number): {
   }
 }
 
-// ---- ANALYTICS (for instructor/admin) ----
+
 export function getSystemAnalytics() {
   const all = getAllProgress();
 

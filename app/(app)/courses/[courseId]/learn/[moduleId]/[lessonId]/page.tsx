@@ -26,7 +26,7 @@ interface PageParams {
 }
 
 function LessonContent({ content }: { content: string }) {
-  // Render markdown-like content with proper formatting
+
   const lines = content.split("\n");
   const elements: React.ReactNode[] = [];
   let i = 0;
@@ -41,7 +41,7 @@ function LessonContent({ content }: { content: string }) {
     } else if (line.startsWith("### ")) {
       elements.push(<h3 key={i} className="text-base font-semibold text-foreground mt-6 mb-2">{line.slice(4)}</h3>);
     } else if (line.startsWith("```")) {
-      // Collect code block
+
       const lang = line.slice(3);
       const codeLines: string[] = [];
       i++;
@@ -58,7 +58,7 @@ function LessonContent({ content }: { content: string }) {
         </div>
       );
     } else if (line.startsWith("- **")) {
-      // Bold list item
+
       const match = line.match(/^- \*\*(.+?)\*\*(.*)$/);
       if (match) {
         elements.push(
@@ -76,7 +76,7 @@ function LessonContent({ content }: { content: string }) {
     } else if (line === "") {
       elements.push(<div key={i} className="h-3" />);
     } else {
-      // Inline formatting: **bold**, `code`
+
       const formatted = line
         .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
         .replace(/`(.+?)`/g, '<code class="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">$1</code>');
@@ -207,10 +207,10 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
     setCompletedLessons(prog?.completedLessons ?? []);
     setMarkedComplete(prog?.completedLessons.includes(lessonId) ?? false);
 
-    // Track current lesson
+
     updateCurrentLesson(user.id, courseId, moduleId, lessonId);
 
-    // Scroll to top on lesson change
+
     contentRef.current?.scrollTo(0, 0);
   }, [courseId, moduleId, lessonId, user?.id]);
 
@@ -230,7 +230,7 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
     setCompletedLessons(prog?.completedLessons ?? []);
   };
 
-  // Find prev/next lesson across modules
+
   const allLessonsFlat: { moduleId: string; lesson: Lesson }[] = course.modules.flatMap((m) =>
     m.lessons.map((l) => ({ moduleId: m.id, lesson: l }))
   );
@@ -244,7 +244,7 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
 
   return (
     <div className="-mx-4 -my-8 flex h-[calc(100vh-73px)]">
-      {/* Desktop sidebar */}
+
       <aside className="hidden lg:flex w-72 xl:w-80 shrink-0 bg-sidebar flex-col border-r border-sidebar-border">
         <CourseSidebar
           course={course}
@@ -255,9 +255,9 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
         />
       </aside>
 
-      {/* Main content */}
+
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top bar */}
+
         <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-card shrink-0">
           <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
             <SheetTrigger asChild>
@@ -296,10 +296,10 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
           </div>
         </div>
 
-        {/* Scrollable lesson content */}
+
         <div className="flex-1 overflow-y-auto" ref={contentRef}>
           <div className="max-w-3xl mx-auto px-4 sm:px-8 py-8">
-            {/* Lesson header */}
+
             <div className="mb-6">
               <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
                 <FileText className="h-3.5 w-3.5" />
@@ -310,14 +310,14 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
 
             <Separator className="mb-8" />
 
-            {/* Content */}
+
             <div className="leading-relaxed">
               <LessonContent content={lesson.content} />
             </div>
 
             <Separator className="my-8" />
 
-            {/* Completion section */}
+
             <div className="rounded-xl border border-border bg-card p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -354,7 +354,7 @@ export default function LessonPage({ params }: { params: Promise<PageParams> }) 
           </div>
         </div>
 
-        {/* Bottom navigation */}
+
         <div className="shrink-0 border-t border-border bg-card px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex-1">
             {prevEntry ? (

@@ -44,7 +44,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
     if (quiz) setTimeLeft((quiz.timeLimit ?? 20) * 60);
   }, [quiz, user?.id]);
 
-  // Timer countdown
+
   useEffect(() => {
     if (state !== "active" || submitted) return;
     const interval = setInterval(() => {
@@ -117,7 +117,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
     (a) => a.quizId === quizId
   ) ?? [];
 
-  // ---- INTRO ----
+
   if (state === "intro") {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
@@ -185,7 +185,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
     );
   }
 
-  // ---- RESULTS ----
+
   if (state === "results") {
     const correctCount = quiz.questions.filter((q, i) => selectedAnswers[i] === q.correctAnswer).length;
     const score = Math.round((correctCount / quiz.questions.length) * 100);
@@ -201,7 +201,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
           </Link>
         </div>
 
-        {/* Score card */}
+
         <div className={cn(
           "rounded-2xl p-8 text-center space-y-4 border",
           passed ? "bg-green-50 border-green-200" : "bg-red-50 border-red-200"
@@ -236,7 +236,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
           </div>
         </div>
 
-        {/* Actions */}
+
         <div className="flex flex-wrap gap-3">
           <Button onClick={() => setState("review")} variant="outline" className="flex-1 gap-2">
             <BookOpen className="h-4 w-4" />
@@ -253,7 +253,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
           </Button>
         </div>
 
-        {/* Adaptive suggestion */}
+
         {!passed && (
           <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex items-start gap-3">
             <BookOpen className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
@@ -272,7 +272,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
     );
   }
 
-  // ---- REVIEW ----
+
   if (state === "review") {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
@@ -346,7 +346,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
                   })}
                 </div>
 
-                {/* Explanation */}
+
                 <div className="ml-9 rounded-lg bg-blue-50 border border-blue-200 p-3 flex items-start gap-2">
                   <AlertCircle className="h-4 w-4 text-blue-600 shrink-0 mt-0.5" />
                   <p className="text-xs text-blue-900 leading-relaxed">{q.explanation}</p>
@@ -364,7 +364,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
     );
   }
 
-  // ---- ACTIVE QUIZ ----
+
   const question = quiz.questions[currentQ];
   const totalQ = quiz.questions.length;
   const answeredCount = selectedAnswers.filter((a) => a !== null).length;
@@ -374,7 +374,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      {/* Header */}
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-bold text-lg">{quiz.title}</h1>
@@ -389,7 +389,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
         </div>
       </div>
 
-      {/* Progress */}
+
       <div className="space-y-1.5">
         <Progress value={progressPct} className="h-2" />
         <div className="flex justify-between text-xs text-muted-foreground">
@@ -398,7 +398,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
         </div>
       </div>
 
-      {/* Question */}
+
       <div className="rounded-2xl border border-border bg-card p-6 space-y-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
@@ -442,7 +442,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
         </div>
       </div>
 
-      {/* Navigation */}
+
       <div className="flex items-center justify-between gap-4">
         <Button
           variant="outline"
@@ -454,7 +454,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
           Previous
         </Button>
 
-        {/* Question dots */}
+
         <div className="flex gap-1.5 flex-wrap justify-center">
           {quiz.questions.map((_, qi) => (
             <button
@@ -491,7 +491,7 @@ export default function QuizPage({ params }: { params: Promise<PageParams> }) {
         )}
       </div>
 
-      {/* All answered prompt */}
+
       {answeredCount === totalQ && !isLastQ && (
         <div className="rounded-xl border border-green-200 bg-green-50 p-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-sm text-green-800">

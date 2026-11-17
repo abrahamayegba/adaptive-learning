@@ -63,17 +63,17 @@ export function TopNav({ user, currentPath = "" }: TopNavProps) {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-sidebar text-sidebar-foreground shadow-md">
       <div className="mx-auto max-w-screen-xl px-4">
         <div className="flex h-16 items-center justify-between gap-4">
-          {/* Logo */}
+
           <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
               <GraduationCap className="h-5 w-5 text-accent-foreground" />
             </div>
             <span className="text-lg font-bold tracking-tight text-sidebar-foreground">
-              Smart<span className="text-accent">LMS</span>
+              Level<span className="text-accent">Up</span>
             </span>
           </Link>
 
-          {/* Desktop Nav */}
+
           <nav className="hidden md:flex items-center gap-1">
             {visibleItems.map((item) => (
               <Link
@@ -92,14 +92,14 @@ export function TopNav({ user, currentPath = "" }: TopNavProps) {
             ))}
           </nav>
 
-          {/* Right side */}
+
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent hidden md:flex">
               <Bell className="h-4 w-4" />
               <span className="sr-only">Notifications</span>
             </Button>
 
-            {/* User menu */}
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-2 hover:bg-sidebar-accent px-2 h-9">
@@ -138,7 +138,7 @@ export function TopNav({ user, currentPath = "" }: TopNavProps) {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Mobile menu button */}
+
             <Button
               variant="ghost"
               size="icon"
@@ -151,7 +151,7 @@ export function TopNav({ user, currentPath = "" }: TopNavProps) {
         </div>
       </div>
 
-      {/* Mobile Nav */}
+
       {mobileOpen && (
         <div className="md:hidden border-t border-sidebar-border bg-sidebar px-4 pb-4 pt-2">
           <nav className="flex flex-col gap-1">
