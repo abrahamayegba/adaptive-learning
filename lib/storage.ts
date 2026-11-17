@@ -7,11 +7,10 @@ import {
   type UserProgress,
   type CourseProgress,
   type QuizAttempt,
-  getUserByEmail,
 } from "./data";
 
 const STORAGE_KEYS = {
-  CURRENT_USER: "lms_current_user",
+  CURRENT_USER: "lms_current_user_v2",
   USER_PROGRESS: "lms_user_progress",
   INITIALIZED: "lms_initialized_v3",
 };
@@ -84,14 +83,9 @@ export function initializeDemoData(): void {
 }
 
 
-export function loginUser(email: string, password: string): { success: boolean; user?: User; error?: string } {
-  const user = getUserByEmail(email);
-  if (!user) return { success: false, error: "No account found with that email." };
-  if (user.password !== password) return { success: false, error: "Incorrect password." };
-
-  const { password: _pw, ...safeUser } = user;
+export function setCurrentUser(user: User): void {
+  const { password: _password, ...safeUser } = user;
   localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(safeUser));
-  return { success: true, user };
 }
 
 export function logoutUser(): void {

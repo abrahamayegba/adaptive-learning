@@ -47,7 +47,8 @@ export function TopNav({ user, currentPath = "" }: TopNavProps) {
 
   const visibleItems = NAV_ITEMS.filter((item) => item.roles.includes(user.role));
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" }).catch(() => undefined);
     logoutUser();
     router.push("/login");
   };

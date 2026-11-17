@@ -62,7 +62,7 @@ export interface Course {
   instructor: string;
   instructorId: string;
   category: string;
-  level: "Beginner" | "Intermediate" | "Advanced";
+  level: "300 Level" | "Beginner" | "Intermediate" | "Advanced";
   thumbnail: string;
   tags: string[];
   modules: Module[];
@@ -484,7 +484,7 @@ const BASE_COURSES: Course[] = [
     instructor: "Miss Oluwaseun Amore",
     instructorId: "user-6",
     category: "Data Structures",
-    level: "Intermediate",
+    level: "300 Level",
     thumbnail: "/images/course-web-dev.jpg",
     tags: ["HTML", "CSS", "JavaScript", "Responsive Design"],
     enrolledCount: 1284,
@@ -1227,7 +1227,7 @@ Modern JavaScript features make code more readable, concise, and maintainable. M
     instructor: "Miss Oluwaseun Amore",
     instructorId: "user-6",
     category: "Operating Systems",
-    level: "Intermediate",
+    level: "300 Level",
     thumbnail: "/images/course-react.jpg",
     tags: ["React", "JavaScript", "Frontend", "Hooks", "State Management"],
     enrolledCount: 892,
@@ -1589,7 +1589,7 @@ const [theme, setTheme] = useLocalStorage("theme", "light");
     instructor: "Miss Oluwaseun Amore",
     instructorId: "user-6",
     category: "Innovation",
-    level: "Intermediate",
+    level: "300 Level",
     thumbnail: "/images/course-python.jpg",
     tags: ["Python", "Machine Learning", "Data Science", "NumPy", "Pandas"],
     enrolledCount: 2341,
@@ -2247,7 +2247,7 @@ Adaptive learning bridges the gap between one-size-fits-all education and truly 
     instructor: "Miss Oluwaseun Amore",
     instructorId: "user-6",
     category: "Data Management",
-    level: "Beginner",
+    level: "300 Level",
     thumbnail: "/images/course-database.jpg",
     tags: ["SQL", "PostgreSQL", "Database Design", "Query Optimisation"],
     enrolledCount: 654,

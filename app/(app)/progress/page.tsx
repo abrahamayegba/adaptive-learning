@@ -118,6 +118,7 @@ export default function ProgressPage() {
                     Beginner: "bg-green-100 text-green-700 border-green-200",
                     Intermediate: "bg-blue-100 text-blue-700 border-blue-200",
                     Advanced: "bg-orange-100 text-orange-700 border-orange-200",
+                    "300 Level": "bg-violet-100 text-violet-700 border-violet-200",
                   }[course.level];
 
                   return (

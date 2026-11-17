@@ -6,15 +6,18 @@ import { BookOpen, Eye, EyeOff, GraduationCap, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { loginUser, getCurrentUser, initializeDemoData } from "@/lib/storage";
-import { DEMO_USERS } from "@/lib/data";
+import { setCurrentUser, getCurrentUser, initializeDemoData } from "@/lib/storage";
+import type { User } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-const DEMO_ACCOUNTS = DEMO_USERS.map((user) => ({
-  name: user.name,
-  username: user.email,
-  role: user.role === "instructor" ? "Instructor" : "Student",
-}));
+const DEMO_ACCOUNTS = [
+  { name: "Destiny Ayegba", username: "RUN/CMP/24/17176", role: "Student" },
+  { name: "Ayanbiyi Abiodun", username: "Run/cmp/24/17174", role: "Student" },
+  { name: "Inioluwa Ayandare", username: "run/cmp/24/17175", role: "Student" },
+  { name: "Adeshola Emiloju", username: "run/cmp/24/17189", role: "Student" },
+  { name: "Kolawole Balogun", username: "run/cmp/24/17178", role: "Student" },
+  { name: "Miss Oluwaseun Amore", username: "instructor", role: "Instructor" },
+];
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,11 +36,21 @@ export default function LoginPage() {
     event.preventDefault();
     setError("");
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 250));
-    const result = loginUser(username, password);
-    setLoading(false);
-    if (result.success) router.push("/dashboard");
-    else setError(result.error ?? "Sign-in failed. Check your details and try again.");
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier: username, password }),
+      });
+      const result = await response.json() as { user?: Omit<User, "password">; error?: string };
+      if (!response.ok || !result.user) throw new Error(result.error ?? "Sign-in failed. Check your details and try again.");
+      setCurrentUser({ ...result.user, password: "" });
+      router.push("/dashboard");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Unable to sign in right now.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const selectAccount = (account: (typeof DEMO_ACCOUNTS)[number]) => {

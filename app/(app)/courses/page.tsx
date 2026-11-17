@@ -2,17 +2,26 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
 import { Search, Filter, BookOpen, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CourseCard } from "@/components/course-card";
 import { getCurrentUser, getUserProgress, enrollInCourse } from "@/lib/storage";
-import { DEMO_COURSES } from "@/lib/data";
+import { DEMO_COURSES, type Course } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
+const LEVELS = ["All", "300 Level"] as const;
 const CATEGORIES = ["All", "Data Structures", "Operating Systems", "Innovation", "Data Management", "Networking", "Software Engineering", "Data Science", "General Studies", "Web Development", "Database"] as const;
+
+type CatalogRecord = { id: string; code: string; title: string; description: string; category: string; level: string; instructor: string; };
+type CatalogResponse = { courses: CatalogRecord[]; total: number };
+const fetcher = async (url: string): Promise<CatalogResponse> => {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Unable to load courses from the SQL API.");
+  return response.json();
+};
 
 export default function CoursesPage() {
   const router = useRouter();
@@ -27,7 +36,23 @@ export default function CoursesPage() {
     setUserProgress(getUserProgress(user.id));
   }, [user, router]);
 
-  const filtered = DEMO_COURSES.filter((c) => {
+  const { data: catalogData } = useSWR("/api/courses", fetcher);
+  const courses: Course[] = catalogData
+    ? catalogData.courses.flatMap((record) => {
+        const template = DEMO_COURSES.find((course) => course.id === record.id);
+        return template ? [{
+          ...template,
+          title: `${record.code} · ${record.title}`,
+          description: record.description,
+          shortDescription: record.description,
+          category: record.category,
+          instructor: record.instructor,
+          level: "300 Level",
+        }] : [];
+      })
+    : DEMO_COURSES;
+
+  const filtered = courses.filter((c) => {
     const matchSearch =
       c.title.toLowerCase().includes(search.toLowerCase()) ||
       c.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -56,7 +81,7 @@ export default function CoursesPage() {
       <div>
         <h1 className="text-3xl font-bold text-foreground">Course Catalogue</h1>
         <p className="text-muted-foreground mt-1">
-          Browse {DEMO_COURSES.length} courses across multiple disciplines
+          Browse {courses.length} courses across the 300-level curriculum
         </p>
       </div>
 
