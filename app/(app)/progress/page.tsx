@@ -54,14 +54,14 @@ export default function ProgressPage() {
   const totalTime = enrolledCourses.reduce((s, c) => s + c.timeSpent, 0);
   const completedCourses = enrolledCourses.filter((c) => c.completed).length;
 
-  // Chart data: quiz scores over time
+
   const quizChartData = allAttempts.map((a, i) => ({
     name: `Quiz ${i + 1}`,
     score: a.score,
     pass: DEMO_QUIZZES.find((q) => q.id === a.quizId)?.passingScore ?? 70,
   }));
 
-  // Course progress chart
+
   const courseChartData = DEMO_COURSES.filter((c) =>
     enrolledCourses.some((e) => e.courseId === c.id)
   ).map((c) => {
@@ -80,7 +80,7 @@ export default function ProgressPage() {
         <p className="text-muted-foreground mt-1">Track your learning journey and adaptive recommendations.</p>
       </div>
 
-      {/* Stats */}
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Courses Enrolled" value={enrolledCourses.length} icon={<BookOpen className="h-5 w-5" />} />
         <StatCard label="Courses Completed" value={completedCourses} icon={<CheckCircle2 className="h-5 w-5" />} />
@@ -90,7 +90,7 @@ export default function ProgressPage() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          {/* Course progress */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-5">
             <div className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-primary" />
@@ -118,6 +118,7 @@ export default function ProgressPage() {
                     Beginner: "bg-green-100 text-green-700 border-green-200",
                     Intermediate: "bg-blue-100 text-blue-700 border-blue-200",
                     Advanced: "bg-orange-100 text-orange-700 border-orange-200",
+                    "300 Level": "bg-violet-100 text-violet-700 border-violet-200",
                   }[course.level];
 
                   return (
@@ -174,7 +175,7 @@ export default function ProgressPage() {
             )}
           </section>
 
-          {/* Quiz score chart */}
+
           {quizChartData.length > 0 && (
             <section className="rounded-xl border border-border bg-card p-6 space-y-4">
               <div className="flex items-center gap-2">
@@ -200,7 +201,7 @@ export default function ProgressPage() {
             </section>
           )}
 
-          {/* Detailed quiz history */}
+
           {allAttempts.length > 0 && (
             <section className="rounded-xl border border-border bg-card p-6 space-y-4">
               <div className="flex items-center gap-2">
@@ -250,9 +251,9 @@ export default function ProgressPage() {
           )}
         </div>
 
-        {/* Sidebar */}
+
         <div className="space-y-6">
-          {/* Adaptive recommendations */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <Zap className="h-4 w-4 text-primary" />
@@ -283,7 +284,7 @@ export default function ProgressPage() {
             )}
           </div>
 
-          {/* Learning stats */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <Star className="h-4 w-4 text-amber-500" />

@@ -15,10 +15,10 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'SmartLMS – Adaptive Learning Management System',
-  description: 'A smart, adaptive web-based Learning Management System that personalises your learning journey. Built for students, instructors, and administrators.',
+  title: 'LevelUp – 300-Level Adaptive Learning Portal',
+  description: 'An adaptive learning management portal for 300-level Computer Science and Information Technology courses, built as a demo academic project.',
   generator: 'v0.app',
-  keywords: ['LMS', 'learning management system', 'adaptive learning', 'e-learning', 'online courses'],
+  keywords: ['300 level', 'adaptive learning', 'Computer Science', 'Information Technology', 'course portal'],
 }
 
 export const viewport: Viewport = {

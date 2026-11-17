@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// ---- Static walkthrough data ----
+
 const FEATURES = [
   {
     id: "mastery",
@@ -92,8 +92,6 @@ return { level: "struggling", ... };`,
     ],
     code: `// getAdaptiveRecommendations() in lib/storage.ts
 for (const courseProg of progress.courses) {
-  // analyse per-course quiz average
-  // push typed recommendation
 }
 const unenrolled = DEMO_COURSES
   .filter(c => !enrolledIds.includes(c.id));
@@ -125,7 +123,6 @@ export type Course = {
   level: "beginner" | "intermediate" | "advanced";
   ...
 };
-// Lesson type
 export type Lesson = {
   difficulty: "beginner" | "intermediate" | "advanced";
   ...
@@ -186,7 +183,7 @@ export default function AdaptivePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+
       <div className="bg-sidebar text-sidebar-foreground">
         <div className="max-w-6xl mx-auto px-6 py-12">
           <div className="flex items-center gap-3 mb-4">
@@ -215,7 +212,7 @@ export default function AdaptivePage() {
 
       <div className="max-w-6xl mx-auto px-6 py-10 space-y-14">
 
-        {/* Overview architecture diagram */}
+
         <section>
           <h2 className="text-xl font-bold text-foreground mb-6">System Architecture Overview</h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-2 items-center">
@@ -242,11 +239,11 @@ export default function AdaptivePage() {
           </div>
         </section>
 
-        {/* Feature deep-dives */}
+
         <section>
           <h2 className="text-xl font-bold text-foreground mb-6">Feature Deep-Dives</h2>
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Sidebar nav */}
+
             <div className="space-y-2">
               {FEATURES.map((f) => (
                 <button
@@ -274,7 +271,7 @@ export default function AdaptivePage() {
               ))}
             </div>
 
-            {/* Content panel */}
+
             <div className="lg:col-span-3 space-y-5">
               <div className={cn("rounded-xl border p-5", feature.bg)}>
                 <div className="flex items-center gap-3 mb-1">
@@ -293,7 +290,7 @@ export default function AdaptivePage() {
 
               <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
 
-              {/* Step flow */}
+
               <div>
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">How it flows</p>
                 <div className="space-y-2">
@@ -311,7 +308,7 @@ export default function AdaptivePage() {
                 </div>
               </div>
 
-              {/* Code snippet */}
+
               <div>
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Relevant code</p>
                 <pre className="rounded-xl bg-sidebar text-sidebar-foreground text-xs leading-relaxed p-4 overflow-x-auto font-mono whitespace-pre-wrap">
@@ -322,7 +319,7 @@ export default function AdaptivePage() {
           </div>
         </section>
 
-        {/* Live demo: feedback tiers */}
+
         <section>
           <h2 className="text-xl font-bold text-foreground mb-2">Live Demo: Adaptive Feedback Tiers</h2>
           <p className="text-sm text-muted-foreground mb-6">
@@ -342,7 +339,7 @@ export default function AdaptivePage() {
               className="w-full accent-primary mb-6"
             />
 
-            {/* Tier display */}
+
             <div className="grid grid-cols-4 gap-3 mb-6">
               {SCORE_DEMO.map((t) => (
                 <div
@@ -368,7 +365,7 @@ export default function AdaptivePage() {
           </div>
         </section>
 
-        {/* Academic framing */}
+
         <section>
           <h2 className="text-xl font-bold text-foreground mb-4">Academic Framing</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

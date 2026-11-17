@@ -42,7 +42,7 @@ export default function ProfilePage() {
   const completedCourses = progress.courses.filter((c) => c.completed).length;
 
   const handleSave = () => {
-    // Update in localStorage
+
     if (typeof window !== "undefined") {
       const updated = { ...user, name: name.trim() || user.name, bio: bio.trim() };
       localStorage.setItem("lms_current_user", JSON.stringify(updated));
@@ -64,7 +64,7 @@ export default function ProfilePage() {
         <p className="text-muted-foreground mt-1">View and update your account information.</p>
       </div>
 
-      {/* Profile card */}
+
       <div className="rounded-xl border border-border bg-card p-6 space-y-6">
         <div className="flex items-start gap-5">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary text-2xl font-bold">
@@ -132,7 +132,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Stats — only for students */}
+
       {user.role === "student" && (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -142,7 +142,7 @@ export default function ProfilePage() {
             <StatCard label="Avg Quiz Score" value={avgScore > 0 ? `${avgScore}%` : "—"} icon={<Clock className="h-5 w-5" />} accent />
           </div>
 
-          {/* Enrolled courses */}
+
           {progress.courses.length > 0 && (
             <section className="rounded-xl border border-border bg-card p-6 space-y-4">
               <h2 className="font-semibold">My Courses</h2>
@@ -193,7 +193,7 @@ export default function ProfilePage() {
             </section>
           )}
 
-          {/* Quiz history */}
+
           {allAttempts.length > 0 && (
             <section className="rounded-xl border border-border bg-card p-6 space-y-4">
               <h2 className="font-semibold">Quiz History</h2>

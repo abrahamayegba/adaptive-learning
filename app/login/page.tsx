@@ -1,23 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { GraduationCap, Eye, EyeOff, BookOpen, Users, BarChart3 } from "lucide-react";
+import { BookOpen, Eye, EyeOff, GraduationCap, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { loginUser, getCurrentUser, initializeDemoData } from "@/lib/storage";
+import { setCurrentUser, getCurrentUser, initializeDemoData } from "@/lib/storage";
+import type { User } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 const DEMO_ACCOUNTS = [
-  { label: "Student", name: "Oluwatobi Adeniran", email: "student@lms.com", password: "demo$$123", icon: <BookOpen className="h-4 w-4" />, desc: "Take courses & quizzes" },
-  { label: "Instructor", name: "Husnain Sherazi", email: "instructor@lms.com", password: "demo$$123", icon: <GraduationCap className="h-4 w-4" />, desc: "Manage & teach courses" },
-  { label: "Admin", name: "Husnain Sherazi", email: "admin@lms.com", password: "demo$$123", icon: <BarChart3 className="h-4 w-4" />, desc: "Full system access" },
+  { name: "Destiny Ayegba", username: "RUN/CMP/24/17176", role: "Student" },
+  { name: "Ayanbiyi Abiodun", username: "Run/cmp/24/17174", role: "Student" },
+  { name: "Inioluwa Ayandare", username: "run/cmp/24/17175", role: "Student" },
+  { name: "Adeshola Emiloju", username: "run/cmp/24/17189", role: "Student" },
+  { name: "Kolawole Balogun", username: "run/cmp/24/17178", role: "Student" },
+  { name: "Miss Oluwaseun Amore", username: "instructor", role: "Instructor" },
 ];
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -25,173 +29,93 @@ export default function LoginPage() {
 
   useEffect(() => {
     initializeDemoData();
-    const user = getCurrentUser();
-    if (user) router.replace("/dashboard");
+    if (getCurrentUser()) router.replace("/dashboard");
   }, [router]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setError("");
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 400));
-    const result = loginUser(email, password);
-    setLoading(false);
-    if (result.success) {
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier: username, password }),
+      });
+      const result = await response.json() as { user?: Omit<User, "password">; error?: string };
+      if (!response.ok || !result.user) throw new Error(result.error ?? "Sign-in failed. Check your details and try again.");
+      setCurrentUser({ ...result.user, password: "" });
       router.push("/dashboard");
-    } else {
-      setError(result.error ?? "Login failed");
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Unable to sign in right now.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const fillDemo = (acc: typeof DEMO_ACCOUNTS[0]) => {
-    setEmail(acc.email);
-    setPassword(acc.password);
+  const selectAccount = (account: (typeof DEMO_ACCOUNTS)[number]) => {
+    setUsername(account.username);
+    setPassword("demo$$123");
     setError("");
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-sidebar flex-col justify-between p-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-sidebar via-sidebar to-sidebar-accent opacity-80" />
+    <main className="min-h-screen bg-background lg:grid lg:grid-cols-[1.05fr_0.95fr]">
+      <section className="relative hidden min-h-screen flex-col justify-between overflow-hidden bg-sidebar p-12 text-sidebar-foreground lg:flex">
+        <div className="absolute inset-0 bg-gradient-to-br from-sidebar via-sidebar to-sidebar-accent" />
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-16">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent">
-              <GraduationCap className="h-6 w-6 text-accent-foreground" />
-            </div>
-            <span className="text-2xl font-bold text-sidebar-foreground">
-              Smart<span className="text-accent">LMS</span>
-            </span>
+          <div className="flex items-center gap-3">
+            <div className="flex size-11 items-center justify-center rounded-2xl bg-accent text-accent-foreground"><GraduationCap /></div>
+            <div><p className="text-xl font-bold">LevelUp</p><p className="text-xs text-sidebar-foreground/60">Adaptive Learning Portal</p></div>
           </div>
-
-          <h1 className="text-4xl font-bold text-sidebar-foreground leading-tight mb-4">
-            Adaptive Learning<br />for Every Learner
-          </h1>
-          <p className="text-sidebar-foreground/70 text-lg leading-relaxed max-w-sm">
-            A smart, personalised learning management system that adapts to your pace, style, and performance.
-          </p>
-
-          <div className="mt-12 space-y-4">
+          <div className="mt-24 max-w-lg">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent">300 level · 2025/26</p>
+            <h1 className="mt-5 text-5xl font-bold leading-tight">Your semester, made personal.</h1>
+            <p className="mt-5 max-w-md text-base leading-7 text-sidebar-foreground/70">A focused learning space for Computer Science and Information Technology students, with course materials, progress tracking, and adaptive practice.</p>
+          </div>
+          <div className="mt-12 grid max-w-lg grid-cols-2 gap-3">
             {[
-              { icon: <BookOpen className="h-5 w-5" />, text: "4 demo courses with full content" },
-              { icon: <BarChart3 className="h-5 w-5" />, text: "Adaptive quiz engine with feedback" },
-              { icon: <Users className="h-5 w-5" />, text: "Student, Instructor & Admin roles" },
-              { icon: <GraduationCap className="h-5 w-5" />, text: "Real-time progress tracking" },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 text-sidebar-foreground/80">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar-accent text-accent">
-                  {item.icon}
-                </div>
-                <span className="text-sm">{item.text}</span>
-              </div>
-            ))}
+              { icon: <BookOpen />, title: "11 course units", detail: "Core 300-level modules" },
+              { icon: <Users />, title: "6 demo accounts", detail: "Five students and instructor" },
+            ].map((item) => <div key={item.title} className="rounded-2xl border border-sidebar-border bg-sidebar/50 p-4"><div className="text-accent">{item.icon}</div><p className="mt-3 text-sm font-semibold">{item.title}</p><p className="mt-1 text-xs text-sidebar-foreground/60">{item.detail}</p></div>)}
           </div>
         </div>
+        <p className="relative z-10 text-xs text-sidebar-foreground/50">Academic demo · Student data and learning activity are sample data</p>
+      </section>
 
-        <p className="relative z-10 text-xs text-sidebar-foreground/40">
-          MSc IT with Web Development · University of the West of Scotland · 2025/26
-        </p>
-      </div>
-
-      {/* Right panel */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md space-y-8">
-          {/* Mobile logo */}
-          <div className="flex lg:hidden items-center gap-2 mb-8">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <GraduationCap className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">
-              Smart<span className="text-primary">LMS</span>
-            </span>
+      <section className="flex min-h-screen items-center justify-center px-5 py-10 sm:px-8">
+        <div className="w-full max-w-xl">
+          <div className="mb-8 lg:hidden">
+            <div className="flex items-center gap-2"><div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground"><GraduationCap /></div><span className="text-xl font-bold">LevelUp</span></div>
+            <p className="mt-5 text-sm font-semibold uppercase tracking-[0.18em] text-primary">300-level learning portal</p>
+          </div>
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight">Welcome back</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Sign in with your matric number or choose a demo account.</p>
           </div>
 
-          <div>
-            <h2 className="text-2xl font-bold text-foreground">Welcome back</h2>
-            <p className="text-muted-foreground mt-1 text-sm">Sign in to continue your learning journey</p>
-          </div>
-
-          {/* Demo accounts */}
-          <div>
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-              Quick access – Demo accounts
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              {DEMO_ACCOUNTS.map((acc) => (
-                <button
-                  key={acc.label}
-                  type="button"
-                  onClick={() => fillDemo(acc)}
-                  className={cn(
-                    "flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-all hover:border-primary hover:bg-primary/5",
-                    email === acc.email ? "border-primary bg-primary/5" : "border-border"
-                  )}
-                >
-                  <div className={cn(
-                    "flex h-7 w-7 items-center justify-center rounded-md",
-                    email === acc.email ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                  )}>
-                    {acc.icon}
-                  </div>
-                  <span className="text-xs font-medium text-foreground">{acc.label}</span>
-                  <span className="text-[10px] font-medium text-primary leading-tight truncate w-full text-center">{acc.name}</span>
-                  <span className="text-[10px] text-muted-foreground leading-tight">{acc.desc}</span>
+          <div className="mt-7">
+            <div className="mb-3 flex items-center justify-between"><p className="text-sm font-semibold">Demo credentials</p><span className="text-xs text-muted-foreground">Password: demo$$123</span></div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {DEMO_ACCOUNTS.map((account) => (
+                <button key={account.username} type="button" onClick={() => selectAccount(account)} className={cn("rounded-xl border p-3 text-left transition-colors hover:border-primary/60 hover:bg-primary/5", username.toLowerCase() === account.username.toLowerCase() ? "border-primary bg-primary/5" : "border-border bg-card")}>
+                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-primary">{account.role}</span>
+                  <span className="mt-1 block text-sm font-semibold leading-5">{account.name}</span>
+                  <span className="mt-1 block break-all text-[10px] leading-4 text-muted-foreground">{account.username}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  className="pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              <p className="text-xs text-muted-foreground">Demo password: demo$$123</p>
-            </div>
-
-            {error && (
-              <div className="rounded-md bg-destructive/10 border border-destructive/20 px-3 py-2 text-sm text-destructive">
-                {error}
-              </div>
-            )}
-
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
+          <form onSubmit={handleLogin} className="mt-7 flex flex-col gap-4">
+            <div className="flex flex-col gap-2"><Label htmlFor="username">Matric number or username</Label><Input id="username" type="text" placeholder="RUN/CMP/24/17176" value={username} onChange={(event) => setUsername(event.target.value)} required autoComplete="username" /></div>
+            <div className="flex flex-col gap-2"><Label htmlFor="password">Password</Label><div className="relative"><Input id="password" type={showPassword ? "text" : "password"} placeholder="Enter your password" value={password} onChange={(event) => setPassword(event.target.value)} required autoComplete="current-password" className="pr-11" /><button type="button" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? "Hide password" : "Show password"} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}</button></div></div>
+            {error && <p role="alert" className="rounded-lg border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+            <Button type="submit" className="mt-1 w-full" disabled={loading}>{loading ? "Signing in…" : "Sign in to your workspace"}</Button>
           </form>
+          <p className="mt-5 text-center text-xs text-muted-foreground">Demo mode · All course and learner activity is sample data.</p>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

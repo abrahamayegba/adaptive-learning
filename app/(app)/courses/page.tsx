@@ -2,17 +2,26 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
 import { Search, Filter, BookOpen, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CourseCard } from "@/components/course-card";
 import { getCurrentUser, getUserProgress, enrollInCourse } from "@/lib/storage";
-import { DEMO_COURSES } from "@/lib/data";
+import { DEMO_COURSES, type Course } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
-const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"] as const;
-const CATEGORIES = ["All", "Web Development", "Data Science", "Database"] as const;
+const LEVELS = ["All", "300 Level"] as const;
+const CATEGORIES = ["All", "Data Structures", "Operating Systems", "Innovation", "Data Management", "Networking", "Software Engineering", "Data Science", "General Studies", "Web Development", "Database"] as const;
+
+type CatalogRecord = { id: string; code: string; title: string; description: string; category: string; level: string; instructor: string; };
+type CatalogResponse = { courses: CatalogRecord[]; total: number };
+const fetcher = async (url: string): Promise<CatalogResponse> => {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Unable to load courses from the SQL API.");
+  return response.json();
+};
 
 export default function CoursesPage() {
   const router = useRouter();
@@ -27,7 +36,23 @@ export default function CoursesPage() {
     setUserProgress(getUserProgress(user.id));
   }, [user, router]);
 
-  const filtered = DEMO_COURSES.filter((c) => {
+  const { data: catalogData } = useSWR("/api/courses", fetcher);
+  const courses: Course[] = catalogData
+    ? catalogData.courses.flatMap((record) => {
+        const template = DEMO_COURSES.find((course) => course.id === record.id);
+        return template ? [{
+          ...template,
+          title: `${record.code} · ${record.title}`,
+          description: record.description,
+          shortDescription: record.description,
+          category: record.category,
+          instructor: record.instructor,
+          level: "300 Level",
+        }] : [];
+      })
+    : DEMO_COURSES;
+
+  const filtered = courses.filter((c) => {
     const matchSearch =
       c.title.toLowerCase().includes(search.toLowerCase()) ||
       c.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,15 +77,15 @@ export default function CoursesPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+
       <div>
         <h1 className="text-3xl font-bold text-foreground">Course Catalogue</h1>
         <p className="text-muted-foreground mt-1">
-          Browse {DEMO_COURSES.length} courses across multiple disciplines
+          Browse {courses.length} courses across the 300-level curriculum
         </p>
       </div>
 
-      {/* Search & Filters */}
+
       <div className="space-y-3">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -111,7 +136,7 @@ export default function CoursesPage() {
         </div>
       </div>
 
-      {/* Stats bar */}
+
       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
         <span>{filtered.length} course{filtered.length !== 1 ? "s" : ""} found</span>
         {user?.role === "student" && (
@@ -122,7 +147,7 @@ export default function CoursesPage() {
         )}
       </div>
 
-      {/* Course grid */}
+
       {filtered.length === 0 ? (
         <div className="rounded-xl border-2 border-dashed border-border p-12 text-center">
           <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
@@ -146,7 +171,7 @@ export default function CoursesPage() {
         </div>
       )}
 
-      {/* Featured instructors */}
+
       <div className="rounded-xl border border-border bg-card p-6">
         <h2 className="font-semibold mb-4 flex items-center gap-2">
           <Star className="h-4 w-4 text-amber-500 fill-amber-500" />

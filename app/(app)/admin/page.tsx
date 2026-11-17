@@ -57,7 +57,7 @@ export default function AdminPage() {
         </Badge>
       </div>
 
-      {/* System stats */}
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Students" value={analytics.totalStudents} icon={<Users className="h-5 w-5" />} />
         <StatCard label="Courses" value={DEMO_COURSES.length} icon={<BookOpen className="h-5 w-5" />} />
@@ -67,7 +67,7 @@ export default function AdminPage() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          {/* Adaptive Engine Configuration */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-5">
             <div className="flex items-center gap-2">
               <Zap className="h-5 w-5 text-primary" />
@@ -124,7 +124,7 @@ export default function AdminPage() {
             </div>
           </section>
 
-          {/* Users overview */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center gap-2">
               <Users className="h-5 w-5 text-primary" />
@@ -172,7 +172,7 @@ export default function AdminPage() {
             </div>
           </section>
 
-          {/* Courses overview */}
+
           <section className="rounded-xl border border-border bg-card p-6 space-y-4">
             <div className="flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-primary" />
@@ -185,6 +185,7 @@ export default function AdminPage() {
                   Beginner: "bg-green-100 text-green-700 border-green-200",
                   Intermediate: "bg-blue-100 text-blue-700 border-blue-200",
                   Advanced: "bg-orange-100 text-orange-700 border-orange-200",
+                  "300 Level": "bg-violet-100 text-violet-700 border-violet-200",
                 }[c.level];
                 return (
                   <div key={c.id} className="flex items-center gap-4 py-3">
@@ -208,9 +209,9 @@ export default function AdminPage() {
           </section>
         </div>
 
-        {/* Sidebar */}
+
         <div className="space-y-6">
-          {/* System status */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-4">
             <div className="flex items-center gap-2">
               <Activity className="h-4 w-4 text-primary" />
@@ -238,28 +239,24 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Demo credentials */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-3">
             <div className="flex items-center gap-2">
               <Database className="h-4 w-4 text-primary" />
               <h3 className="font-semibold text-sm">Demo Credentials</h3>
             </div>
             <div className="space-y-2 text-xs">
-              {[
-                { role: "Student", email: "student@lms.com" },
-                { role: "Instructor", email: "instructor@lms.com" },
-                { role: "Admin", email: "admin@lms.com" },
-              ].map(({ role, email }) => (
-                <div key={role} className="rounded-lg bg-muted p-2.5">
-                  <div className="font-medium text-foreground">{role}</div>
-                  <div className="text-muted-foreground">{email}</div>
-                  <div className="text-muted-foreground">Password: demo123</div>
+              {DEMO_USERS.map((demoUser) => (
+                <div key={demoUser.id} className="rounded-lg bg-muted p-2.5">
+                  <div className="font-medium text-foreground">{demoUser.role === "instructor" ? "Instructor" : "Student"} · {demoUser.name}</div>
+                  <div className="text-muted-foreground">{demoUser.email}</div>
+                  <div className="text-muted-foreground">Password: demo$$123</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Quick actions */}
+
           <div className="rounded-xl border border-border bg-card p-5 space-y-3">
             <div className="flex items-center gap-2">
               <Settings className="h-4 w-4 text-primary" />

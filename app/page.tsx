@@ -24,7 +24,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center space-y-3">
         <div className="h-8 w-8 rounded-full border-2 border-primary border-t-transparent animate-spin mx-auto" />
-        <p className="text-sm text-muted-foreground">Loading SmartLMS...</p>
+        <p className="text-sm text-muted-foreground">Loading LevelUp...</p>
       </div>
     </div>
   );

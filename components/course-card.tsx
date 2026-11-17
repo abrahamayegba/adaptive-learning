@@ -11,6 +11,7 @@ const levelColours = {
   Beginner: "bg-green-100 text-green-700 border-green-200",
   Intermediate: "bg-blue-100 text-blue-700 border-blue-200",
   Advanced: "bg-orange-100 text-orange-700 border-orange-200",
+  "300 Level": "bg-violet-100 text-violet-700 border-violet-200",
 };
 
 interface CourseCardProps {
@@ -31,7 +32,7 @@ export function CourseCard({ course, progress, enrolled, onEnroll, compact }: Co
       "group rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden flex flex-col",
       compact ? "text-sm" : ""
     )}>
-      {/* Thumbnail */}
+
       <div className={cn(
         "relative overflow-hidden",
         compact ? "h-24" : "h-36"
@@ -58,7 +59,7 @@ export function CourseCard({ course, progress, enrolled, onEnroll, compact }: Co
         )}
       </div>
 
-      {/* Content */}
+
       <div className="flex flex-col flex-1 p-4 gap-3">
         <div>
           <h3 className={cn("font-semibold leading-snug line-clamp-2 text-foreground group-hover:text-primary transition-colors", compact ? "text-sm" : "text-base")}>
@@ -92,7 +93,7 @@ export function CourseCard({ course, progress, enrolled, onEnroll, compact }: Co
           </div>
         )}
 
-        {/* Progress bar */}
+
         {enrolled && progress && (
           <div className="space-y-1">
             <div className="flex justify-between text-xs text-muted-foreground">
@@ -103,7 +104,7 @@ export function CourseCard({ course, progress, enrolled, onEnroll, compact }: Co
           </div>
         )}
 
-        {/* Action */}
+
         <div className="mt-auto pt-1">
           {enrolled ? (
             <Button asChild size="sm" className="w-full" variant={progressPct === 0 ? "default" : "outline"}>

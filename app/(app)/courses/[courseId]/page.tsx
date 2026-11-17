@@ -79,11 +79,12 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
     Beginner: "bg-green-100 text-green-700 border-green-200",
     Intermediate: "bg-blue-100 text-blue-700 border-blue-200",
     Advanced: "bg-orange-100 text-orange-700 border-orange-200",
+    "300 Level": "bg-violet-100 text-violet-700 border-violet-200",
   }[course.level];
 
   return (
     <div className="space-y-8">
-      {/* Breadcrumb */}
+
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/courses" className="hover:text-foreground transition-colors">Courses</Link>
         <ChevronRight className="h-3 w-3" />
@@ -91,9 +92,9 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8">
-        {/* Main info */}
+
         <div className="lg:col-span-2 space-y-6">
-          {/* Header */}
+
           <div>
             <div className="flex flex-wrap gap-2 mb-3">
               <Badge className={cn("border", levelColour)}>{course.level}</Badge>
@@ -106,7 +107,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
             <p className="text-muted-foreground mt-3 leading-relaxed">{course.description}</p>
           </div>
 
-          {/* Meta */}
+
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <BookOpen className="h-4 w-4" />
@@ -130,7 +131,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
             </span>
           </div>
 
-          {/* Progress bar (if enrolled) */}
+
           {enrolled && (
             <div className="rounded-xl border border-border bg-card p-4 space-y-2">
               <div className="flex justify-between text-sm">
@@ -147,7 +148,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
             </div>
           )}
 
-          {/* Objectives */}
+
           <div className="rounded-xl border border-border bg-card p-6">
             <h2 className="font-semibold mb-4 flex items-center gap-2">
               <Target className="h-4 w-4 text-primary" />
@@ -163,7 +164,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
             </ul>
           </div>
 
-          {/* Prerequisites */}
+
           {course.prerequisites.length > 0 && (
             <div className="rounded-xl border border-border bg-muted/50 p-4">
               <h3 className="font-medium text-sm mb-2">Prerequisites</h3>
@@ -178,7 +179,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
             </div>
           )}
 
-          {/* Curriculum */}
+
           <div>
             <h2 className="font-semibold text-lg mb-4">Course Curriculum</h2>
             <Accordion type="multiple" defaultValue={course.modules.map((m) => m.id)}>
@@ -270,10 +271,10 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
           </div>
         </div>
 
-        {/* Sidebar sticky card */}
+
         <div className="lg:col-span-1">
           <div className="sticky top-24 rounded-xl border border-border bg-card shadow-sm p-6 space-y-4">
-            {/* Course thumbnail placeholder */}
+
             <div className={cn(
               "rounded-lg h-36 flex items-center justify-center",
               course.category === "Web Development" ? "bg-gradient-to-br from-blue-500 to-blue-700" :
@@ -306,7 +307,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ courseI
                     {progressPct === 0 ? "Start Learning" : progress?.completed ? "Review Course" : "Continue Learning"}
                   </Link>
                 </Button>
-                {/* Quiz buttons */}
+
                 {course.modules.map((mod) => mod.quizId && (
                   <Button key={mod.quizId} asChild variant="outline" size="sm" className="w-full">
                     <Link href={`/courses/${courseId}/quiz/${mod.quizId}`}>
