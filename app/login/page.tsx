@@ -16,6 +16,13 @@ const DEMO_ACCOUNTS = [
   { name: "Inioluwa Ayandare", username: "run/cmp/24/17175", role: "Student" },
   { name: "Adeshola Emiloju", username: "run/cmp/24/17189", role: "Student" },
   { name: "Kolawole Balogun", username: "run/cmp/24/17178", role: "Student" },
+  { name: "Badmus Enoch", username: "RUN/CMP/24/17177", role: "Student" },
+  { name: "Amosu God'spraise Oluwaferanmi", username: "RUN/CMP/24/17169", role: "Student" },
+  { name: "Tim-mordi Benjamin", username: "RUN/CMP/24/17270", role: "Student" },
+  { name: "Atoyebi Joy Temilouwa", username: "RUN/CMP/24/17173", role: "Student" },
+  { name: "ATIBIOKE EMMANUEL", username: "RUN/CMP/24/17172", role: "Student" },
+  { name: "Araoye Adepeju", username: "RUN/CMP/24/17171", role: "Student" },
+  { name: "Amos-Oladele Shammah", username: "Amos-Oladele Shammah", role: "Student" },
   { name: "Miss Oluwaseun Amore", username: "instructor", role: "Instructor" },
 ];
 
@@ -76,7 +83,7 @@ export default function LoginPage() {
           <div className="mt-12 grid max-w-lg grid-cols-2 gap-3">
             {[
               { icon: <BookOpen />, title: "11 course units", detail: "Core 300-level modules" },
-              { icon: <Users />, title: "6 demo accounts", detail: "Five students and instructor" },
+              { icon: <Users />, title: "13 demo accounts", detail: "12 students and instructor" },
             ].map((item) => <div key={item.title} className="rounded-2xl border border-sidebar-border bg-sidebar/50 p-4"><div className="text-accent">{item.icon}</div><p className="mt-3 text-sm font-semibold">{item.title}</p><p className="mt-1 text-xs text-sidebar-foreground/60">{item.detail}</p></div>)}
           </div>
         </div>
